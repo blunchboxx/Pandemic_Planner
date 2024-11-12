@@ -15,7 +15,7 @@ using namespace std;
         g++ -std=c++14 -Werror -Wuninitialized -o test test-unit/test.cpp && ./test
 */
 
-TEST_CASE("Function: getAdjacent, source", "[given]")
+TEST_CASE("Test: CATCH 2 CONFIG CHECK", "[given]")
 {
     int actualOutput = 0;
     int expectedOutput = 0;

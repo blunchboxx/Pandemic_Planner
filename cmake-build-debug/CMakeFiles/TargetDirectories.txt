@@ -1,3 +1,10 @@
-C:/dev/COP3530/Projects/Project 3/Pandemic_Planner/cmake-build-debug/CMakeFiles/Pandemic_Planner.dir
+C:/dev/COP3530/Projects/Project 3/Pandemic_Planner/cmake-build-debug/CMakeFiles/Main.dir
+C:/dev/COP3530/Projects/Project 3/Pandemic_Planner/cmake-build-debug/CMakeFiles/Tests.dir
 C:/dev/COP3530/Projects/Project 3/Pandemic_Planner/cmake-build-debug/CMakeFiles/edit_cache.dir
 C:/dev/COP3530/Projects/Project 3/Pandemic_Planner/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/dev/COP3530/Projects/Project 3/Pandemic_Planner/cmake-build-debug/_deps/catch2-build/CMakeFiles/edit_cache.dir
+C:/dev/COP3530/Projects/Project 3/Pandemic_Planner/cmake-build-debug/_deps/catch2-build/CMakeFiles/rebuild_cache.dir
+C:/dev/COP3530/Projects/Project 3/Pandemic_Planner/cmake-build-debug/_deps/catch2-build/src/CMakeFiles/Catch2.dir
+C:/dev/COP3530/Projects/Project 3/Pandemic_Planner/cmake-build-debug/_deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir
+C:/dev/COP3530/Projects/Project 3/Pandemic_Planner/cmake-build-debug/_deps/catch2-build/src/CMakeFiles/edit_cache.dir
+C:/dev/COP3530/Projects/Project 3/Pandemic_Planner/cmake-build-debug/_deps/catch2-build/src/CMakeFiles/rebuild_cache.dir
