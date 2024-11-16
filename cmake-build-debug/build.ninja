@@ -11,7 +11,7 @@
 # =============================================================================
 
 # =============================================================================
-# Project: Project_3
+# Project: Pandemic_Planner
 # Configurations: Debug
 # =============================================================================
 
@@ -56,6 +56,27 @@ build CMakeFiles/Main.dir/src/main.cpp.obj: CXX_COMPILER__Main_unscanned_Debug C
   OBJECT_DIR = CMakeFiles\Main.dir
   OBJECT_FILE_DIR = CMakeFiles\Main.dir\src
 
+build CMakeFiles/Main.dir/src/WeeklyStats.cpp.obj: CXX_COMPILER__Main_unscanned_Debug C$:/dev/COP3530/Projects/Project$ 3/Pandemic_Planner/src/WeeklyStats.cpp || cmake_object_order_depends_target_Main
+  DEP_FILE = CMakeFiles\Main.dir\src\WeeklyStats.cpp.obj.d
+  FLAGS = -Wall -Werror -g -std=gnu++14 -fdiagnostics-color=always
+  INCLUDES = -I"C:/dev/COP3530/Projects/Project 3/Pandemic_Planner/src" -I"C:/dev/COP3530/Projects/Project 3/Pandemic_Planner/test-unit"
+  OBJECT_DIR = CMakeFiles\Main.dir
+  OBJECT_FILE_DIR = CMakeFiles\Main.dir\src
+
+build CMakeFiles/Main.dir/src/Hospital.cpp.obj: CXX_COMPILER__Main_unscanned_Debug C$:/dev/COP3530/Projects/Project$ 3/Pandemic_Planner/src/Hospital.cpp || cmake_object_order_depends_target_Main
+  DEP_FILE = CMakeFiles\Main.dir\src\Hospital.cpp.obj.d
+  FLAGS = -Wall -Werror -g -std=gnu++14 -fdiagnostics-color=always
+  INCLUDES = -I"C:/dev/COP3530/Projects/Project 3/Pandemic_Planner/src" -I"C:/dev/COP3530/Projects/Project 3/Pandemic_Planner/test-unit"
+  OBJECT_DIR = CMakeFiles\Main.dir
+  OBJECT_FILE_DIR = CMakeFiles\Main.dir\src
+
+build CMakeFiles/Main.dir/src/State.cpp.obj: CXX_COMPILER__Main_unscanned_Debug C$:/dev/COP3530/Projects/Project$ 3/Pandemic_Planner/src/State.cpp || cmake_object_order_depends_target_Main
+  DEP_FILE = CMakeFiles\Main.dir\src\State.cpp.obj.d
+  FLAGS = -Wall -Werror -g -std=gnu++14 -fdiagnostics-color=always
+  INCLUDES = -I"C:/dev/COP3530/Projects/Project 3/Pandemic_Planner/src" -I"C:/dev/COP3530/Projects/Project 3/Pandemic_Planner/test-unit"
+  OBJECT_DIR = CMakeFiles\Main.dir
+  OBJECT_FILE_DIR = CMakeFiles\Main.dir\src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Main
@@ -64,7 +85,7 @@ build CMakeFiles/Main.dir/src/main.cpp.obj: CXX_COMPILER__Main_unscanned_Debug C
 #############################################
 # Link the executable Main.exe
 
-build Main.exe: CXX_EXECUTABLE_LINKER__Main_Debug CMakeFiles/Main.dir/src/main.cpp.obj
+build Main.exe: CXX_EXECUTABLE_LINKER__Main_Debug CMakeFiles/Main.dir/src/main.cpp.obj CMakeFiles/Main.dir/src/WeeklyStats.cpp.obj CMakeFiles/Main.dir/src/Hospital.cpp.obj CMakeFiles/Main.dir/src/State.cpp.obj
   FLAGS = -Wall -Werror -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Main.dir

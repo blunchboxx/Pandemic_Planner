@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.29)
-project(Project_3)
+project(Pandemic_Planner)
 
 set(CMAKE_CXX_STANDARD 14)
 
@@ -21,6 +21,12 @@ include_directories(test-unit)
 
 add_executable(Main
         src/main.cpp
+        src/WeeklyStats.cpp
+        src/WeeklyStats.h
+        src/Hospital.cpp
+        src/Hospital.h
+        src/State.cpp
+        src/State.h
 )
 
 add_executable(Tests
