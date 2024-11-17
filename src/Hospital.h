@@ -1,7 +1,3 @@
-//
-// Created by Jason on 11/16/2024.
-//
-
 #ifndef HOSPITAL_H
 #define HOSPITAL_H
 
@@ -19,22 +15,16 @@ private:
 
 public:
     // Default constructor
-    WeeklyStats(){
-        inpatientBeds = 0;
-        occupiedInpatientBeds = 0;
-        covidInpatientBeds = 0;
+    WeeklyStats()
 
     // Parameterized constructor
-    WeeklyStats(int total, int occupied, int covid){
-        inpatientBeds = total;
-        occupiedInpatientBeds = occupied;
-        covidInpatientBeds = covid;
+    WeeklyStats(int total, int occupied, int covid)
 
     // Getters
-    int getInpatientBeds() const (return inpatientBeds);
-    int getOccupiedInpatientBeds() const (return occupiedInpatientBeds);
-    int getCovidInpatientBeds() const (return covidInpatientBeds);
-    }
+    int getInpatientBeds() const;
+    int getOccupiedInpatientBeds() const;
+    int getCovidInpatientBeds() const;
+
 }
 
 class Hospital {
@@ -49,13 +39,21 @@ private:
 
 public:
     // Constructors
-    // Going to come back to this part.
-    Hospital(string hospitalID, string hospitalName, string hospitalZipcode, string hospitalSubtype, pair<int, int> HospitalGeoCoords);
+    Hospital(const string& pk, const string& hospitalName, const string& zipCode, const string& hospitalSubtype, int x, int y);
 
     // Adding weekly data
-    void addWeeklyStats(const string& date, const WeeklyStats&)
+    void addWeeklyStats(const string& date, const WeeklyStats&);
 
-    // I am still working on this. :) 
+    // Getter for hospital_pk to check if it's the same hospital
+    string getHospitalPK() const;
+
+    // Getters that we'll need for visualization and data display
+    string getName() const;
+    string getZip() const;
+    string getSubtype() const;
+    pair<int, int> getGeoCoords() const;
+    WeeklyStats getOrderedWeeklyStats(const string& date) const;
+    WeeklyStats getUnorderedWeeklyStats(const string& date) const;
 };
 
 
