@@ -37,7 +37,7 @@ int WeedklyStats::getCovidInpatientBeds() const {
     
 //Hospital
 
-Hospital::Hospital(const string& pk, const string& hospitalName, const string& zipCode, const string& hospitalSubtype, int x, int y) {
+Hospital::Hospital(const string& pk, const string& hospitalName, const string& zipCode, const string& hospitalSubtype, double x, double y) {
     hospital_pk = pk;
     name = hospitalName;
     zip = zipCode;
