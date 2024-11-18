@@ -40,6 +40,7 @@ private:
 public:
     // Constructors
     Hospital(const string& pk, const string& hospitalName, const string& zipCode, const string& hospitalSubtype, double x, double y);
+    bool operator==(const Hospital& rhs) const;
 
     // Adding weekly data
     void addWeeklyStats(const string& date, const WeeklyStats&);
@@ -51,7 +52,7 @@ public:
     string getName() const;
     string getZip() const;
     string getSubtype() const;
-    pair<int, int> getGeoCoords() const;
+    pair<double, double> getGeoCoords() const;
     WeeklyStats getOrderedWeeklyStats(const string& date) const;
     WeeklyStats getUnorderedWeeklyStats(const string& date) const;
 };

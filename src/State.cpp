@@ -15,13 +15,31 @@ State::State(string name)
 {
     _name = name;
 }
+bool State::operator==(const State& rhs) const
+{
+    bool isSame = false;
+    if ((this->getName() == rhs.getName()) && (this->getMap() == rhs.getMap()))
+    {
+        isSame = true;
+    }
+    return isSame;
+}
 
-void State::addHospital(string pk, Hospital newHospital)
+void State::addHospital(string pk, Hospital& newHospital)
 {
     if(_hospitals.find(pk) == _hospitals.end())
     {
-        _hospitals.try_emplace(pk, newHospital);
+        _hospitals.emplace(pk, newHospital);
     }
     else
         cout << "Hospital already in state list\n";
+}
+
+unordered_map<string, Hospital> State::getMap() const
+{
+    return _hospitals;
+}
+string State::getName() const
+{
+    return _name;
 }

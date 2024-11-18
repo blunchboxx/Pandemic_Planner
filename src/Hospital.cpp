@@ -23,21 +23,22 @@ WeeklyStats::WeeklyStats(int total, int occupied, int covid) {
         covidInpatientBeds = covid;
 }
 
-int WeedklyStats::getInpatientBeds() const {
+int WeeklyStats::getInpatientBeds() const {
     return inpatientBeds;
 }
 
-int WeedklyStats::getOccupiedInpatientBeds() const {
+int WeeklyStats::getOccupiedInpatientBeds() const {
     return occupiedInpatientBeds;
 }
 
-int WeedklyStats::getCovidInpatientBeds() const {
+int WeeklyStats::getCovidInpatientBeds() const {
     return covidInpatientBeds;
 }
     
 //Hospital
 
-Hospital::Hospital(const string& pk, const string& hospitalName, const string& zipCode, const string& hospitalSubtype, double x, double y) {
+Hospital::Hospital(const string& pk, const string& hospitalName, const string& zipCode,
+    const string& hospitalSubtype, double x, double y) {
     hospital_pk = pk;
     name = hospitalName;
     zip = zipCode;
@@ -45,7 +46,20 @@ Hospital::Hospital(const string& pk, const string& hospitalName, const string& z
     geoCoords = make_pair(x,y);
 }
 
-void Hospital::addWeeklyStats(const string& date, const WeeklyStats&){
+bool Hospital::operator==(const Hospital& rhs) const
+{
+    bool isSame = false;
+
+    if ((this->hospital_pk == rhs.getHospitalPK())&&(this->name == rhs.getName())&&(this->zip == rhs.getZip())
+        &&(this->subtype == rhs.getSubtype())&&(this->geoCoords.first == rhs.getGeoCoords().first)
+        &&((this->geoCoords.second == rhs.getGeoCoords().second)))
+    {
+        isSame = true;
+    }
+    return isSame;
+}
+
+void Hospital::addWeeklyStats(const string& date, const WeeklyStats& stats){
     ordered_weekly_data[date] = stats;
     unordered_weekly_data[date] = stats;
 }
@@ -63,10 +77,10 @@ string Hospital::getZip() const {
 }
 
 string Hospital::getSubtype() const {
-    return hospitalSubtype;
+    return subtype;
 }
 
-pair<int, int> Hospital::getGeoCoords() const {
+pair<double, double> Hospital::getGeoCoords() const {
     return geoCoords;
 }
 

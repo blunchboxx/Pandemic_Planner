@@ -21,8 +21,6 @@ include_directories(test-unit)
 
 add_executable(Main
         src/main.cpp
-        src/WeeklyStats.cpp
-        src/WeeklyStats.h
         src/Hospital.cpp
         src/Hospital.h
         src/State.cpp
@@ -31,6 +29,10 @@ add_executable(Main
 
 add_executable(Tests
         test-unit/test.cpp
+        src/Hospital.cpp
+        src/Hospital.h
+        src/State.cpp
+        src/State.h
 )
 
 target_link_libraries(Tests PRIVATE Catch2::Catch2WithMain) #link catch to test.cpp file

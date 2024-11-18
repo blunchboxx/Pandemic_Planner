@@ -17,8 +17,15 @@ public:
     // Constructors
     State();
     State(string name);
+    bool operator==(const State& rhs) const;
 
-    void addHospital(string pk, Hospital newHospital);
+
+    // Functions
+    void addHospital(string pk, Hospital& newHospital);
+
+    // Getters
+    unordered_map<string, Hospital> getMap() const;
+    string getName() const;
 
 };
 
