@@ -1,5 +1,7 @@
 #include <valarray>
 #include <iostream>
+#include <fstream>
+#include <string>
 #include <catch2/internal/catch_preprocessor_internal_stringify.hpp>
 #include "catch2/catch_test_macros.hpp"
 #include "catch2/internal/catch_compiler_capabilities.hpp"
@@ -19,6 +21,15 @@ TEST_CASE("Test: CATCH 2 CONFIG CHECK", "[given]")
 {
     int actualOutput = 0;
     int expectedOutput = 0;
+
+    REQUIRE(actualOutput == expectedOutput);
+}
+
+TEST_CASE("Test: ReadFile", "[given]")
+{
+    ifstream file;
+    string path = "test-data\\testFile1.csv";
+
 
     REQUIRE(actualOutput == expectedOutput);
 }

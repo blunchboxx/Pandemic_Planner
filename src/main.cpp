@@ -6,78 +6,67 @@
 #include <string>
 #include <map>
 #include <unordered_map>
+#include <State.h>
+#include <Hospital.h>
+#include <WeeklyStats.h>
 #include <filesystem>
+
+#include "Hospital.h"
 using namespace std;
 namespace fs = std::filesystem;
 
-void readFile(int sampleNum, string path, vector<TestSample>& testObjectList)
+void readFile(ifstream& file, string path, unordered_map<string, State>& dataMap)
 {
-    ifstream csvFile;
-    vector<float> xValues;
-    vector<float> yValues;
     map<float, float> dataValuesMap;
 
-    csvFile.open(path);
+    file.open(path);
 
-    if (!csvFile.is_open())
+    if (!file.is_open())
         cout << "File could not be opened to read." << endl;
     else
     {
-        cout << "Reading data from file " << path << "..." << endl;
+        cout << "Reading data from file..." << endl;
         string newLine, token;
-        string tempArray[17];
+        vector<string> tempVector;
 
-        getline(csvFile, newLine);  // Get and discard header row
+        getline(file, newLine);  // Get and discard header row
 
-        int count = 0;
-
-        while (getline(csvFile, newLine))
+        while (getline(file, newLine)) // Read in all lines of file
         {
-            count = 0;
-
             istringstream ss(newLine); // Send next line to stream
 
-            while (getline(ss, token, ','))  // Loop through entire stream
+            while (getline(ss, token, ','))  // Loop through entire line
             {
-                /*if (count < 4)
-                {
-                    cout << " Count: " << count << " token: " << token << endl;
-                }*/
-
-                if (count == 4) // Load (force) data
-                {
-                    yValues.push_back(stof(token));
-                }
-
-                /*else if (count > 4 && count < 8)
-                {
-                    continue;
-                }*/
-
-                else if (count == 8)
-                {
-                    xValues.push_back(stof(token));
-                }
-
-                count++;
+                tempVector.push_back(token); // Add each data value to vector
             }
 
-            for (int i = 0; i < xValues.size(); i++)
+            // Check if State already exists
+            if (dataMap.find(tempVector[2]) == dataMap.end()) // If state DNE, add it
             {
-                dataValuesMap.emplace(xValues[i], yValues[i]);
+                State newState; // Instantiate new state object: TODO add params
+                dataMap.try_emplace(tempVector[2], newState);
             }
+            // If not, create state object and add to state ordered and unordered maps
+            // Check if hospital already exists
+            // If not, create hospital object
+            // Add stats to hospital weekly stats map
 
         }
 
-        TestSample nextSample(sampleNum, dataValuesMap, xValues, yValues);// // Instantiate new Test Sample object
+        /*TestSample nextSample(sampleNum, dataValuesMap, xValues, yValues);// // Instantiate new Test Sample object
 
-        testObjectList.push_back(nextSample); // Add object to vector
+        testObjectList.push_back(nextSample); // Add object to vector*/
 
     }
 }
 
 int main()
 {
-    std::cout << "Hello, World!" << std::endl;
+    unordered_map<string, State> dataMap;
+    ifstream dataFile;
+    string path = "data\\COVID-19_Data.csv";
+
+    readFile(dataFile, path, dataMap);
+
     return 0;
 }
