@@ -15,17 +15,17 @@ private:
 
 public:
     // Default constructor
-    WeeklyStats()
+    WeeklyStats();
 
     // Parameterized constructor
-    WeeklyStats(int total, int occupied, int covid)
+    WeeklyStats(int total, int occupied, int covid);
 
     // Getters
     int getInpatientBeds() const;
     int getOccupiedInpatientBeds() const;
     int getCovidInpatientBeds() const;
 
-}
+};
 
 class Hospital {
 private:
@@ -33,13 +33,13 @@ private:
     string name;
     string zip;
     string subtype;
-    pair<int, int> geoCoords;
+    pair<double, double> geoCoords;
     map<string, WeeklyStats> ordered_weekly_data;
     unordered_map<string, WeeklyStats> unordered_weekly_data;
 
 public:
     // Constructors
-    Hospital(const string& pk, const string& hospitalName, const string& zipCode, const string& hospitalSubtype, int x, int y);
+    Hospital(const string& pk, const string& hospitalName, const string& zipCode, const string& hospitalSubtype, double x, double y);
 
     // Adding weekly data
     void addWeeklyStats(const string& date, const WeeklyStats&);
