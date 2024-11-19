@@ -15,6 +15,16 @@ State::State(string name)
 {
     _name = name;
 }
+
+State& State::operator=(const State& other)
+{
+    if (this != &other)
+    {
+        //TODO finish copy assignment operator
+    }
+    return *this;
+}
+
 bool State::operator==(const State& rhs) const
 {
     bool isSame = false;

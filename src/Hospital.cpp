@@ -23,6 +23,19 @@ WeeklyStats::WeeklyStats(int total, int occupied, int covid) {
         covidInpatientBeds = covid;
 }
 
+bool WeeklyStats::operator==(const WeeklyStats rhs) const
+{
+    bool isSame = false;
+
+    if ((this->inpatientBeds == rhs.getInpatientBeds())
+        && (this->occupiedInpatientBeds == rhs.getOccupiedInpatientBeds())
+        && (this->covidInpatientBeds == rhs.getCovidInpatientBeds()))
+    {
+        isSame = true;
+    }
+    return isSame;
+}
+
 int WeeklyStats::getInpatientBeds() const {
     return inpatientBeds;
 }
@@ -36,6 +49,14 @@ int WeeklyStats::getCovidInpatientBeds() const {
 }
     
 //Hospital
+Hospital::Hospital()
+{
+    hospital_pk = "pk";
+    name = "Default";
+    zip = "000000";
+    subtype = "none";
+    geoCoords = make_pair(-1,-1);
+}
 
 Hospital::Hospital(const string& pk, const string& hospitalName, const string& zipCode,
     const string& hospitalSubtype, double x, double y) {
@@ -50,9 +71,10 @@ bool Hospital::operator==(const Hospital& rhs) const
 {
     bool isSame = false;
 
+    // If all hospital attributes are equal, objects are equal
     if ((this->hospital_pk == rhs.getHospitalPK())&&(this->name == rhs.getName())&&(this->zip == rhs.getZip())
         &&(this->subtype == rhs.getSubtype())&&(this->geoCoords.first == rhs.getGeoCoords().first)
-        &&((this->geoCoords.second == rhs.getGeoCoords().second)))
+        &&((this->geoCoords.second == rhs.getGeoCoords().second))&&(this->ordered_weekly_data == rhs.ordered_weekly_data))
     {
         isSame = true;
     }

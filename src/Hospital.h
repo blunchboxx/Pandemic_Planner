@@ -20,6 +20,9 @@ public:
     // Parameterized constructor
     WeeklyStats(int total, int occupied, int covid);
 
+    // Equality operator overload
+    bool operator==(const WeeklyStats rhs) const;
+
     // Getters
     int getInpatientBeds() const;
     int getOccupiedInpatientBeds() const;
@@ -39,7 +42,10 @@ private:
 
 public:
     // Constructors
+    Hospital();
     Hospital(const string& pk, const string& hospitalName, const string& zipCode, const string& hospitalSubtype, double x, double y);
+
+    // Equality operator overload
     bool operator==(const Hospital& rhs) const;
 
     // Adding weekly data

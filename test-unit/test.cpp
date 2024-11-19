@@ -45,7 +45,7 @@ void readFile(ifstream& file, string path, unordered_map<string, State>& dataMap
                 tempVector.push_back(token); // Add each data value to vector
             }
 
-            string stateName = tempVector[2];
+            string stateName = tempVector[2]; // Get state of current line
 
             // Check if State already exists
             if (dataMap.find(stateName) == dataMap.end()) // If not, create state object and add to state map
@@ -54,17 +54,35 @@ void readFile(ifstream& file, string path, unordered_map<string, State>& dataMap
                 dataMap.emplace(stateName, newState);
             }
 
-            State currState = dataMap[stateName];
-            string currPK = tempVector[0];
+            State currState = dataMap[stateName]; // Get current State object
+            string currPK = tempVector[0]; // Get hospital ID of current line
+
             // Check if hospital already exists
-            if (currState.getMap().find(currPK) == currState.getMap().end()) // If not, create hospital object
+            if (dataMap[stateName].getMap().find(currPK) == dataMap[stateName].getMap().end()) // If not, create hospital object
             {
                 // TODO parse geocoords = tempVector[96]
-                Hospital newHospital(currPK, tempVector[4], tempVector[7], tempVector[8], 0.0, 0.0);
+                Hospital newHospital(currPK, tempVector[4],
+                    tempVector[7], tempVector[8], 0.0, 0.0);
+
+                dataMap[stateName].getMap().emplace(currPK, newHospital);
             }
             // Todo Add stats to hospital weekly stats map
+            // Get collection date and weekly data
+            string currDate = tempVector[1];
+            int currTotalBeds = stoi(tempVector[11]);
+            int currTotalBedsUsed = stoi(tempVector[14]);
+            int currTotalCovidBeds = stoi(tempVector[16]);
 
+            // Create new weekly stats object
+            WeeklyStats newWeek(currTotalBeds, currTotalBedsUsed, currTotalCovidBeds);
+
+            // Add weekly stats to hospital object
+            dataMap[stateName].getMap()[currPK].addWeeklyStats(currDate, newWeek);
+
+            // Clear vector for next line
+            tempVector.clear();
         }
+        file.close();
     }
 }
 
@@ -79,7 +97,7 @@ TEST_CASE("Test: CATCH 2 CONFIG CHECK", "[given]")
 TEST_CASE("Test: ReadFile", "[given]")
 {
     ifstream file;
-    string path = "test-data/testFile1.csv";
+    string path = "C:\\dev\\COP3530\\Projects\\Project 3\\Pandemic_Planner\\test-data\\testFile1.csv";
 
     State Florida("FL");
     State Alabama("AL");
@@ -88,6 +106,18 @@ TEST_CASE("Test: ReadFile", "[given]")
     unordered_map<string, State> expectedOutput = {{"FL", Florida}, {"AL", Alabama}};
 
     readFile(file, path, actualOutput);
+
+    cout << "Outputting Data: \n";
+
+    for(auto state : actualOutput)
+    {
+        cout << "State Name: " << state.first << endl;
+
+        for (auto hospital : state.second.getMap())
+        {
+            cout << "Hospital Name: " << hospital.second.getName() << endl;
+        }
+    }
 
     REQUIRE(actualOutput == expectedOutput);
 }

@@ -13,12 +13,15 @@ class State {
 
     string _name;
     unordered_map<string, Hospital> _hospitals;
+
 public:
     // Constructors
     State();
     State(string name);
-    bool operator==(const State& rhs) const;
 
+    // Operator Overloading
+    State& operator=(const State& other);
+    bool operator==(const State& rhs) const;
 
     // Functions
     void addHospital(string pk, Hospital& newHospital);
