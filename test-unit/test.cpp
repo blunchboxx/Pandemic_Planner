@@ -102,6 +102,14 @@ TEST_CASE("Test: ReadFile", "[given]")
     State Florida("FL");
     State Alabama("AL");
 
+    Hospital hos1("010001", "SOUTHEAST HEALTH MEDICAL CENTER", "36301", "Short Term", 0.0, 0.0);
+    Hospital hos2("100299", "LAKEWOOD RANCH MEDICAL CENTER", "34202", "Short Term", 0.0, 0.0);
+
+    Florida.getMap().emplace(hos2.getHospitalPK(), hos2);
+    Alabama.getMap().emplace(hos1.getHospitalPK(),  hos1);
+
+    // TODO: Create hospital objects to store in states
+
     unordered_map<string, State> actualOutput;
     unordered_map<string, State> expectedOutput = {{"FL", Florida}, {"AL", Alabama}};
 
@@ -118,6 +126,5 @@ TEST_CASE("Test: ReadFile", "[given]")
             cout << "Hospital Name: " << hospital.second.getName() << endl;
         }
     }
-
     REQUIRE(actualOutput == expectedOutput);
 }

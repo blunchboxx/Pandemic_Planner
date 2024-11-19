@@ -27,7 +27,8 @@ public:
     void addHospital(string pk, Hospital& newHospital);
 
     // Getters
-    unordered_map<string, Hospital> getMap() const;
+    unordered_map<string, Hospital>& getMap();
+    unordered_map<string, Hospital> const & getMap() const;
     string getName() const;
 
 };

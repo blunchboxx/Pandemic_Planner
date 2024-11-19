@@ -45,7 +45,12 @@ void State::addHospital(string pk, Hospital& newHospital)
         cout << "Hospital already in state list\n";
 }
 
-unordered_map<string, Hospital> State::getMap() const
+// Getters
+unordered_map<string, Hospital>& State::getMap()
+{
+    return _hospitals;
+}
+unordered_map<string, Hospital> const & State::getMap() const
 {
     return _hospitals;
 }
