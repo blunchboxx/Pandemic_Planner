@@ -25,6 +25,8 @@ add_executable(Main
         src/Hospital.h
         src/State.cpp
         src/State.h
+        src/dataInput.cpp
+        src/dataInput.h
 )
 
 add_executable(Tests
@@ -33,6 +35,8 @@ add_executable(Tests
         src/Hospital.h
         src/State.cpp
         src/State.h
+        src/dataInput.cpp
+        src/dataInput.h
 )
 
 target_link_libraries(Tests PRIVATE Catch2::Catch2WithMain) #link catch to test.cpp file

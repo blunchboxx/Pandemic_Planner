@@ -1,26 +1,25 @@
-#include <valarray>
+//
+// Created by Jason on 11/19/2024.
+//
+#include <iomanip>
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <sstream>
+#include <vector>
+#include <string>
+#include <map>
+#include <unordered_map>
 #include "State.h"
 #include "Hospital.h"
-#include <catch2/internal/catch_preprocessor_internal_stringify.hpp>
-#include "catch2/catch_test_macros.hpp"
-#include "catch2/internal/catch_compiler_capabilities.hpp"
-#include "catch2/internal/catch_decomposer.hpp"
-#include "catch2/internal/catch_result_type.hpp"
-#include "catch2/internal/catch_test_macro_impl.hpp"
-#include "catch2/internal/catch_test_registry.hpp"
-using namespace std;
-#define CATCH_CONFIG_MAIN
+#include "dataInput.h"
 
-/*
-    To check output (At the maze_escape directory):
-        g++ -std=c++14 -Werror -Wuninitialized -o test test-unit/test.cpp && ./test
-*/
+int dataInput::validateData()
+{
+    // TODO: implement function to parse data and confirm it is valid
+    return 0;
+}
 
-void readFile(ifstream& file, string path, unordered_map<string, State>& dataMap)
+void dataInput::readFile(ifstream& file, string path, unordered_map<string, State>& dataMap)
 {
     map<float, float> dataValuesMap;
 
@@ -69,6 +68,8 @@ void readFile(ifstream& file, string path, unordered_map<string, State>& dataMap
             // Todo Add stats to hospital weekly stats map
             // Get collection date and weekly data
             string currDate = tempVector[1];
+
+            // TODO: add exception handling for string to int
             int currTotalBeds = stoi(tempVector[11]);
             int currTotalBedsUsed = stoi(tempVector[14]);
             int currTotalCovidBeds = stoi(tempVector[16]);
@@ -86,43 +87,11 @@ void readFile(ifstream& file, string path, unordered_map<string, State>& dataMap
     }
 }
 
-TEST_CASE("Test: CATCH 2 CONFIG CHECK", "[given]")
+void dataInput::printData(unordered_map<string, State>& dataMap)
 {
-    int actualOutput = 0;
-    int expectedOutput = 0;
-
-    REQUIRE(actualOutput == expectedOutput);
-}
-
-TEST_CASE("Test: ReadFile", "[given]")
-{
-    ifstream file;
-    string path = "C:\\dev\\COP3530\\Projects\\Project 3\\Pandemic_Planner\\test-data\\testFile1.csv";
-
-    State Florida("FL");
-    State Alabama("AL");
-
-    Hospital hos1("010001", "SOUTHEAST HEALTH MEDICAL CENTER", "36301", "Short Term", 0.0, 0.0);
-    Hospital hos2("100299", "LAKEWOOD RANCH MEDICAL CENTER", "34202", "Short Term", 0.0, 0.0);
-
-    WeeklyStats week1(401, 324, 49);
-    WeeklyStats week2(115, 113, 54);
-    hos1.addWeeklyStats("7/19/2020", week1);
-    hos2.addWeeklyStats("8/15/2021", week2);
-
-    Florida.getMap().emplace(hos2.getHospitalPK(), hos2);
-    Alabama.getMap().emplace(hos1.getHospitalPK(),  hos1);
-
-    // TODO: Create hospital objects to store in states
-
-    unordered_map<string, State> actualOutput;
-    unordered_map<string, State> expectedOutput = {{"FL", Florida}, {"AL", Alabama}};
-
-    readFile(file, path, actualOutput);
-
     cout << "Outputting Data: \n";
 
-    for(auto state : actualOutput)
+    for(auto state : dataMap)
     {
         cout << "State Name: " << state.first << endl;
 
@@ -130,11 +99,13 @@ TEST_CASE("Test: ReadFile", "[given]")
         {
             cout << "Hospital Name: " << hospital.second.getName() << endl;
 
-            for (auto week : hospital.second.getOrderedWeeklyStats())
+            for (auto week : hospital.second.getOrderedStatsMap())
             {
-
+                cout << "Data for week of " << week.first << endl;
+                cout << "Total number of bed: " << week.second.getCovidInpatientBeds() << endl;
+                cout << "Total number of occupied beds: " << week.second.getOccupiedInpatientBeds() << endl;
+                cout << "Total number of COVID occupied beds: " << week.second.getCovidInpatientBeds() << endl;
             }
         }
     }
-    REQUIRE(actualOutput == expectedOutput);
 }

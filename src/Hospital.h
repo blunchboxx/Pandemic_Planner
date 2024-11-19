@@ -59,6 +59,13 @@ public:
     string getZip() const;
     string getSubtype() const;
     pair<double, double> getGeoCoords() const;
+    // Weekly stats Getters
+    map<string, WeeklyStats>& getOrderedStatsMap();
+    unordered_map<string, WeeklyStats>& getUnorderedStatsMap();
+
+    // Weekly stats CONST Getters
+    map<string, WeeklyStats> const & getOrderedStatsMap() const;
+    unordered_map<string, WeeklyStats> const & getUnorderedStatsMap() const;
     WeeklyStats getOrderedWeeklyStats(const string& date) const;
     WeeklyStats getUnorderedWeeklyStats(const string& date) const;
 };

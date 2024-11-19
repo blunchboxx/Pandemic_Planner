@@ -106,6 +106,25 @@ pair<double, double> Hospital::getGeoCoords() const {
     return geoCoords;
 }
 
+map<string, WeeklyStats>& Hospital::getOrderedStatsMap()
+{
+    return ordered_weekly_data;
+}
+
+unordered_map<string, WeeklyStats>& Hospital::getUnorderedStatsMap()
+{
+    return unordered_weekly_data;
+}
+
+map<string, WeeklyStats> const & Hospital::getOrderedStatsMap() const
+{
+    return ordered_weekly_data;
+}
+unordered_map<string, WeeklyStats> const & Hospital::getUnorderedStatsMap() const
+{
+    return unordered_weekly_data;
+}
+
 // If date wasn't found, a default Weekly Stats object is created and returned.
 WeeklyStats Hospital::getOrderedWeeklyStats(const string& date) const {
     auto it = ordered_weekly_data.find(date);
