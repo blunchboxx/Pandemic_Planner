@@ -9,16 +9,16 @@ using namespace std;
 
 class WeeklyStats {
 private:
-    int inpatientBeds;
-    int occupiedInpatientBeds;
-    int covidInpatientBeds;
+    double inpatientBeds;
+    double occupiedInpatientBeds;
+    double covidInpatientBeds;
 
 public:
     // Default constructor
     WeeklyStats();
 
     // Parameterized constructor
-    WeeklyStats(int total, int occupied, int covid);
+    WeeklyStats(double total, double occupied, double covid);
 
     // Equality operator overload
     bool operator==(const WeeklyStats rhs) const;

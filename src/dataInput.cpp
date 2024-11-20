@@ -9,6 +9,7 @@
 #include <string>
 #include <map>
 #include <unordered_map>
+#include <stdexcept>
 #include "State.h"
 #include "Hospital.h"
 #include "dataInput.h"
@@ -21,7 +22,6 @@ int dataInput::validateData()
 
 void dataInput::readFile(ifstream& file, string path, unordered_map<string, State>& dataMap)
 {
-    map<float, float> dataValuesMap;
 
     file.open(path);
 
@@ -30,14 +30,16 @@ void dataInput::readFile(ifstream& file, string path, unordered_map<string, Stat
     else
     {
         cout << "Reading data from file..." << endl;
-        string newLine, token;
-        vector<string> tempVector;
+        string newLine;
 
         getline(file, newLine);  // Get and discard header row
 
         while (getline(file, newLine)) // Read in all lines of file
         {
-            istringstream ss(newLine); // Send next line to stream
+
+            vector<string> tempVector;
+            string token = "";
+            stringstream ss(newLine); // Send next line to stream
 
             while (getline(ss, token, ','))  // Loop through entire line
             {
@@ -69,10 +71,12 @@ void dataInput::readFile(ifstream& file, string path, unordered_map<string, Stat
             // Get collection date and weekly data
             string currDate = tempVector[1];
 
-            // TODO: add exception handling for string to int
-            int currTotalBeds = stoi(tempVector[11]);
-            int currTotalBedsUsed = stoi(tempVector[14]);
-            int currTotalCovidBeds = stoi(tempVector[16]);
+            double currTotalBeds = stod(tempVector[10]);
+            double currTotalBedsUsed = stod(tempVector[11]);
+            double currTotalCovidBeds = stod(tempVector[12]);
+
+            if (currTotalCovidBeds < 0)
+                currTotalCovidBeds = 0;
 
             // Create new weekly stats object
             WeeklyStats newWeek(currTotalBeds, currTotalBedsUsed, currTotalCovidBeds);
@@ -80,8 +84,32 @@ void dataInput::readFile(ifstream& file, string path, unordered_map<string, Stat
             // Add weekly stats to hospital object
             dataMap[stateName].getMap()[currPK].addWeeklyStats(currDate, newWeek);
 
+            // TODO: add exception handling for string to int
+            /*string currTotalBeds = tempVector[11];
+            cout << currTotalBeds << endl;*/
+            /*try
+            {
+            int currTotalBeds = stoi(tempVector[10]);
+            int currTotalBedsUsed = stoi(tempVector[11]);
+            int currTotalCovidBeds = stoi(tempVector[12]);
+
+                int currTotalBeds = stoi(tempVector[11]);
+                int currTotalBedsUsed = stoi(tempVector[14]);
+                int currTotalCovidBeds = stoi(tempVector[16]);
+
+                // Create new weekly stats object
+                WeeklyStats newWeek(currTotalBeds, currTotalBedsUsed, currTotalCovidBeds);
+
+                // Add weekly stats to hospital object
+                dataMap[stateName].getMap()[currPK].addWeeklyStats(currDate, newWeek);
+            }
+            catch (const exception& e)
+            {
+                cout << "Exception: " << e.what() << endl;
+            }*/
             // Clear vector for next line
             tempVector.clear();
+            //ss.clear();
         }
         file.close();
     }
@@ -102,7 +130,7 @@ void dataInput::printData(unordered_map<string, State>& dataMap)
             for (auto week : hospital.second.getOrderedStatsMap())
             {
                 cout << "Data for week of " << week.first << endl;
-                cout << "Total number of bed: " << week.second.getCovidInpatientBeds() << endl;
+                cout << "Total number of bed: " << week.second.getInpatientBeds() << endl;
                 cout << "Total number of occupied beds: " << week.second.getOccupiedInpatientBeds() << endl;
                 cout << "Total number of COVID occupied beds: " << week.second.getCovidInpatientBeds() << endl;
             }

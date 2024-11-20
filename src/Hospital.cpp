@@ -17,7 +17,7 @@ WeeklyStats::WeeklyStats() {
         covidInpatientBeds = 0;
 }
 
-WeeklyStats::WeeklyStats(int total, int occupied, int covid) {
+WeeklyStats::WeeklyStats(double total, double occupied, double covid) {
         inpatientBeds = total;
         occupiedInpatientBeds = occupied;
         covidInpatientBeds = covid;

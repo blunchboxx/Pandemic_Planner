@@ -19,7 +19,7 @@ int main()
     unordered_map<string, State> dataMap;
     dataInput data;
     ifstream dataFile;
-    string path = "C:\\dev\\COP3530\\Projects\\Project 3\\Pandemic_Planner\\data\\COVID-19_Data_noBlanks.csv";
+    string path = "C:\\dev\\COP3530\\Projects\\Project 3\\Pandemic_Planner\\data\\COVIDTEST.csv";
         // Full path to test data file
         //"C:\\dev\\COP3530\\Projects\\Project 3\\Pandemic_Planner\\test-data\\testFile1.csv";
         //"data\\COVID-19_Data.csv";
