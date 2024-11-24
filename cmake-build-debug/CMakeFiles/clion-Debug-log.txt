@@ -1,4 +1,18 @@
 "C:\Users\Jason\AppData\Local\JetBrains\CLion 2024.2.2\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Users/Jason/AppData/Local/JetBrains/CLion 2024.2.2/bin/ninja/win/x64/ninja.exe" -G Ninja -S "C:\dev\COP3530\Projects\Project 3\Pandemic_Planner" -B "C:\dev\COP3530\Projects\Project 3\Pandemic_Planner\cmake-build-debug"
--- Configuring done (5.8s)
--- Generating done (0.0s)
+-- The C compiler identification is GNU 13.1.0
+-- The CXX compiler identification is GNU 13.1.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Users/Jason/AppData/Local/JetBrains/CLion 2024.2.2/bin/mingw/bin/gcc.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Users/Jason/AppData/Local/JetBrains/CLion 2024.2.2/bin/mingw/bin/g++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Performing Test HAVE_FLAG__ffile_prefix_map_C__dev_COP3530_Projects_Project_3_Pandemic_Planner_cmake_build_debug__deps_catch2_src__
+-- Performing Test HAVE_FLAG__ffile_prefix_map_C__dev_COP3530_Projects_Project_3_Pandemic_Planner_cmake_build_debug__deps_catch2_src__ - Failed
+-- Configuring done (43.7s)
+-- Generating done (0.3s)
 -- Build files have been written to: C:/dev/COP3530/Projects/Project 3/Pandemic_Planner/cmake-build-debug

@@ -5,6 +5,8 @@
 #ifndef STATE_H
 #define STATE_H
 #include <unordered_map>
+#include <set>
+#include <unordered_set>
 #include "Hospital.h"
 using namespace std;
 
@@ -13,6 +15,8 @@ class State {
 
     string _name;
     unordered_map<string, Hospital> _hospitals;
+    // TODO try using an ordered and unordered map of <Hospital, WeeklyStats>
+    // TODO Weekly stats could be unordered set of date objects
 
 public:
     // Constructors

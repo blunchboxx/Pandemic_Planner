@@ -71,5 +71,16 @@ public:
 };
 
 
+struct HospitalHash
+{
+    size_t operator()(const Hospital& hospital) const
+    {
+        size_t h1 = hash<string>{}(hospital.getName());
+        size_t h2 = hash<string>{}(hospital.getHospitalPK());
+
+        return h1 ^ (h2 << 1); // combine hashes
+    }
+};
+
 
 #endif //HOSPITAL_H
