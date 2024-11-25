@@ -11,9 +11,11 @@ struct dataInput {
 
     string validateDate(string date);
     void readFile(ifstream& file, string path, unordered_map<string, State>& dataMap);
-    void readFileSet(ifstream& file, string path, unordered_map<string, unordered_set<Hospital, HospitalHash>>& dataSet);
+    void readFileNew(ifstream& file, string path, unordered_map<string, unordered_map<string, Hospital>>& dataMap);
+    //void readFileSet(ifstream& file, string path, unordered_map<string, unordered_set<pair<string, Hospital>, HospitalHash>>& dataSet);
 
     void printData(unordered_map<string, State>& dataMap);
+    void printDataNew(unordered_map<string, unordered_map<string, Hospital>>& dataMap);
 
 };
 

@@ -25,8 +25,9 @@ int main()
 
     time_t startTime = time(0);
 
-    unordered_map<string, unordered_set<Hospital, HospitalHash>> stateMap;
     unordered_map<string, State> dataMap;
+    unordered_map<string, unordered_map<string, Hospital>> stateMap;
+
     dataInput data;
     ifstream dataFile;
     string path = "C:\\dev\\COP3530\\Projects\\Project 3\\Pandemic_Planner\\data\\COVID-19_Data_scrubbed_no99999.csv";
@@ -35,13 +36,16 @@ int main()
         //"data\\COVID-19_Data.csv";
 
     //data.readFile(dataFile, path, dataMap);
-    data.readFileSet(dataFile, path, stateMap);
+    data.readFileNew(dataFile, path, stateMap);
     //data.printData(dataMap);
 
     time_t endTime = time(0);
     double elapsedTime = difftime(endTime, startTime);
 
     cout << "Elapsed time: " << elapsedTime << " seconds.\n";
+
+    //data.printData(dataMap);
+    //data.printDataNew(stateMap);
 
     return 0;
 }
