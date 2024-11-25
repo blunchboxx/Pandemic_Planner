@@ -47,5 +47,10 @@ int main()
     //data.printData(dataMap);
     //data.printDataNew(stateMap);
 
+    /*for (auto state : stateMap)
+    {
+        cout << state.first << ": " << state.second.size() << " hospitals.\n";
+    }*/
+
     return 0;
 }
