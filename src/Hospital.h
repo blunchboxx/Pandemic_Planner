@@ -14,21 +14,24 @@ private:
     double covidInpatientBeds;
     double percentCapacityUsed;
     double percentCapacityCovid;
+    string collectionDate, collectionMonth;
 
 public:
     // Default constructor
     WeeklyStats();
 
     // Parameterized constructor
-    WeeklyStats(double total, double occupied, double covid);
+    WeeklyStats(string date, string month, double total, double occupied, double covid);
 
     // Equality operator overload
     bool operator==(const WeeklyStats rhs) const;
 
     // Getters
-    int getInpatientBeds() const;
-    int getOccupiedInpatientBeds() const;
-    int getCovidInpatientBeds() const;
+    double getInpatientBeds() const;
+    double getOccupiedInpatientBeds() const;
+    double getCovidInpatientBeds() const;
+    double getPercentCapacityUsed() const;
+    double getCovidCapacityUsed() const;
 
 };
 
@@ -40,8 +43,8 @@ private:
     string zip;
     string subtype;
     pair<double, double> geoCoords;
-    map<string, WeeklyStats> ordered_weekly_data;
-    unordered_map<string, WeeklyStats> unordered_weekly_data;
+    map<string, vector<WeeklyStats>> ordered_monthly_data;
+    unordered_map<string, vector<WeeklyStats>> unordered_monthly_data;
 
 public:
     // Constructors
@@ -66,14 +69,14 @@ public:
     string getSubtype() const;
     pair<double, double> getGeoCoords() const;
     // Weekly stats Getters
-    map<string, WeeklyStats>& getOrderedStatsMap();
-    unordered_map<string, WeeklyStats>& getUnorderedStatsMap();
+    map<string, vector<WeeklyStats>>& getOrderedStatsMap();
+    unordered_map<string, vector<WeeklyStats>>& getUnorderedStatsMap();
 
     // Weekly stats CONST Getters
-    map<string, WeeklyStats> const & getOrderedStatsMap() const;
-    unordered_map<string, WeeklyStats> const & getUnorderedStatsMap() const;
-    WeeklyStats getOrderedWeeklyStats(const string& date) const;
-    WeeklyStats getUnorderedWeeklyStats(const string& date) const;
+    map<string, vector<WeeklyStats>> const & getOrderedStatsMap() const;
+    unordered_map<string, vector<WeeklyStats>> const & getUnorderedStatsMap() const;
+    WeeklyStats getOrderedMonthlyStats(const string& date) const;
+    WeeklyStats getUnorderedMonthlyStats(const string& date) const;
 };
 
 struct HospitalHash

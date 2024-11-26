@@ -17,12 +17,14 @@ WeeklyStats::WeeklyStats() {
     covidInpatientBeds = 0;
 }
 
-WeeklyStats::WeeklyStats(double total, double occupied, double covid) {
+WeeklyStats::WeeklyStats(string date, string month, double total, double occupied, double covid) {
     inpatientBeds = total;
     occupiedInpatientBeds = occupied;
     covidInpatientBeds = covid;
     percentCapacityUsed = occupiedInpatientBeds / inpatientBeds * 100;
     percentCapacityCovid = covidInpatientBeds / inpatientBeds * 100;
+    collectionDate = date;
+    collectionMonth = month;
 }
 
 bool WeeklyStats::operator==(const WeeklyStats rhs) const
@@ -38,16 +40,25 @@ bool WeeklyStats::operator==(const WeeklyStats rhs) const
     return isSame;
 }
 
-int WeeklyStats::getInpatientBeds() const {
+double WeeklyStats::getInpatientBeds() const {
     return inpatientBeds;
 }
 
-int WeeklyStats::getOccupiedInpatientBeds() const {
+double WeeklyStats::getOccupiedInpatientBeds() const {
     return occupiedInpatientBeds;
 }
 
-int WeeklyStats::getCovidInpatientBeds() const {
+double WeeklyStats::getCovidInpatientBeds() const {
     return covidInpatientBeds;
+}
+
+double WeeklyStats::getPercentCapacityUsed() const
+{
+    return percentCapacityUsed;
+}
+double WeeklyStats::getCovidCapacityUsed() const
+{
+    return percentCapacityCovid;
 }
     
 //Hospital
@@ -76,7 +87,7 @@ bool Hospital::operator==(const Hospital& rhs) const
     // If all hospital attributes are equal, objects are equal
     if ((this->hospital_pk == rhs.getHospitalPK())&&(this->name == rhs.getName())&&(this->zip == rhs.getZip())
         &&(this->subtype == rhs.getSubtype())&&(this->geoCoords.first == rhs.getGeoCoords().first)
-        &&((this->geoCoords.second == rhs.getGeoCoords().second))&&(this->ordered_weekly_data == rhs.ordered_weekly_data))
+        &&((this->geoCoords.second == rhs.getGeoCoords().second))&&(this->ordered_monthly_data == rhs.ordered_monthly_data))
     {
         isSame = true;
     }
@@ -90,8 +101,8 @@ bool Hospital::operator<(const Hospital& rhs) const
 }
 
 void Hospital::addWeeklyStats(const string& date, const WeeklyStats& stats){
-    ordered_weekly_data[date] = stats;
-    unordered_weekly_data[date] = stats;
+    ordered_monthly_data[date].push_back(stats);
+    unordered_monthly_data[date].push_back(stats);
 }
 
 string Hospital::getHospitalPK() const {
@@ -114,32 +125,33 @@ pair<double, double> Hospital::getGeoCoords() const {
     return geoCoords;
 }
 
-map<string, WeeklyStats>& Hospital::getOrderedStatsMap()
+map<string, vector<WeeklyStats>>& Hospital::getOrderedStatsMap()
 {
-    return ordered_weekly_data;
+    return ordered_monthly_data;
 }
 
-unordered_map<string, WeeklyStats>& Hospital::getUnorderedStatsMap()
+unordered_map<string,vector<WeeklyStats>>& Hospital::getUnorderedStatsMap()
 {
-    return unordered_weekly_data;
+    return unordered_monthly_data;
 }
 
-map<string, WeeklyStats> const & Hospital::getOrderedStatsMap() const
+map<string, vector<WeeklyStats>> const & Hospital::getOrderedStatsMap() const
 {
-    return ordered_weekly_data;
+    return ordered_monthly_data;
 }
-unordered_map<string, WeeklyStats> const & Hospital::getUnorderedStatsMap() const
+unordered_map<string, vector<WeeklyStats>> const & Hospital::getUnorderedStatsMap() const
 {
-    return unordered_weekly_data;
+    return unordered_monthly_data;
 }
 
+// TODO Update to return vector of weekly stats
 // If date wasn't found, a default Weekly Stats object is created and returned.
-WeeklyStats Hospital::getOrderedWeeklyStats(const string& date) const {
-    auto it = ordered_weekly_data.find(date);
-    return (it != ordered_weekly_data.end()) ? it->second : WeeklyStats();
+WeeklyStats Hospital::getOrderedMonthlyStats(const string& date) const {
+    auto it = ordered_monthly_data.find(date);
+    return it->second[0]; // (it != ordered_monthly_data.end()) ? it->second : WeeklyStats();
 }
 
-WeeklyStats Hospital::getUnorderedWeeklyStats(const string& date) const {
-    auto it = unordered_weekly_data.find(date);
-    return (it != unordered_weekly_data.end()) ? it->second : WeeklyStats();
+WeeklyStats Hospital::getUnorderedMonthlyStats(const string& date) const {
+    auto it = unordered_monthly_data.find(date);
+    return it->second[0]; //(it != unordered_monthly_data.end()) ? it->second : WeeklyStats();
 }
