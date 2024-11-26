@@ -12,6 +12,8 @@ private:
     double inpatientBeds;
     double occupiedInpatientBeds;
     double covidInpatientBeds;
+    double percentCapacityUsed;
+    double percentCapacityCovid;
 
 public:
     // Default constructor
@@ -30,6 +32,7 @@ public:
 
 };
 
+
 class Hospital {
 private:
     string hospital_pk;
@@ -47,6 +50,9 @@ public:
 
     // Equality operator overload
     bool operator==(const Hospital& rhs) const;
+
+    // Comparison operator overload
+    bool operator<(const Hospital& rhs) const;
 
     // Adding weekly data
     void addWeeklyStats(const string& date, const WeeklyStats&);
@@ -69,7 +75,6 @@ public:
     WeeklyStats getOrderedWeeklyStats(const string& date) const;
     WeeklyStats getUnorderedWeeklyStats(const string& date) const;
 };
-
 
 struct HospitalHash
 {

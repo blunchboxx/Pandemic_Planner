@@ -12,15 +12,17 @@ using namespace std;
 //Weekly Stats
 
 WeeklyStats::WeeklyStats() {
-        inpatientBeds = 0;
-        occupiedInpatientBeds = 0;
-        covidInpatientBeds = 0;
+    inpatientBeds = 0;
+    occupiedInpatientBeds = 0;
+    covidInpatientBeds = 0;
 }
 
 WeeklyStats::WeeklyStats(double total, double occupied, double covid) {
-        inpatientBeds = total;
-        occupiedInpatientBeds = occupied;
-        covidInpatientBeds = covid;
+    inpatientBeds = total;
+    occupiedInpatientBeds = occupied;
+    covidInpatientBeds = covid;
+    percentCapacityUsed = occupiedInpatientBeds / inpatientBeds * 100;
+    percentCapacityCovid = covidInpatientBeds / inpatientBeds * 100;
 }
 
 bool WeeklyStats::operator==(const WeeklyStats rhs) const
@@ -79,6 +81,12 @@ bool Hospital::operator==(const Hospital& rhs) const
         isSame = true;
     }
     return isSame;
+}
+
+bool Hospital::operator<(const Hospital& rhs) const
+{
+    // TODO implement method to compare weekly stats between hospitals
+    return hospital_pk > rhs.hospital_pk;
 }
 
 void Hospital::addWeeklyStats(const string& date, const WeeklyStats& stats){
