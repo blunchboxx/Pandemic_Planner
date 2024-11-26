@@ -24,10 +24,10 @@ string dataInput::validateDate(string date)
 }
 string dataInput::calculateMonth(string date)
 {
-    string::size_type end = date.length();//date[-1];
-    string::size_type start = date[-8];
+    string::size_type end = date.length() - 1;//date[-1];
+    string::size_type start = date.length() - 8;
     string monthDate = date.substr(start, end);
-    cout << monthDate << endl;
+
     return monthDate;
 }
 
@@ -40,8 +40,7 @@ void dataInput::readFileNew(ifstream& file, string path, unordered_map<string, u
     else
     {
         cout << "Reading data from file..." << endl;
-        //char buffer[256000];
-        //file.rdbuf()->pubsetbuf(buffer, sizeof(buffer));
+
         vector<string> tempVector(20, "");
         string newLine;
         int count = 0;
@@ -58,10 +57,7 @@ void dataInput::readFileNew(ifstream& file, string path, unordered_map<string, u
             while (getline(ss, token, ','))  // Loop through entire line
             {
                 tempVector[count] = token;
-                //cout << token << " ";
-                //cout << count << " ";
                 count++;
-                //tempVector.push_back(token); // Add each data value to vector
             }
 
             count = 0;
@@ -98,8 +94,6 @@ void dataInput::readFileNew(ifstream& file, string path, unordered_map<string, u
             }
             // Todo Add stats to hospital weekly stats map
             // Get collection date and weekly data
-            string currDate = tempVector[1];
-
             double currTotalBeds = stod(tempVector[10]);
             double currTotalBedsUsed = stod(tempVector[11]);
             double currTotalCovidBeds = stod(tempVector[12]);
@@ -113,7 +107,7 @@ void dataInput::readFileNew(ifstream& file, string path, unordered_map<string, u
             WeeklyStats newWeek(date, month, currTotalBeds, currTotalBedsUsed, currTotalCovidBeds);
 
             // Add weekly stats to hospital object
-            dataMap[stateName][currPK].addWeeklyStats(currDate, newWeek);
+            dataMap[stateName][currPK].addWeeklyStats(month, newWeek);
 
             // Clear vector for next line
             //tempVector.clear();
@@ -220,13 +214,14 @@ void dataInput::printData(unordered_map<string, State>& dataMap)
             for (auto month : hospital.second.getOrderedStatsMap())
             {
                 cout << "Data for month of " << month.first << "\n";
+                cout << "Capacity used: " << month.second.getPercentCapacityUsed() << "\n";
 
-                for (auto week : month.second)
+                /*for (auto week : month.second)
                 {
                     cout << "Total number of bed: " << week.getInpatientBeds() << "\n";
                     cout << "Total number of occupied beds: " << week.getOccupiedInpatientBeds() << "\n";
                     cout << "Total number of COVID occupied beds: " << week.getCovidInpatientBeds() << "\n";
-                }
+                }*/
             }
         }
     }
@@ -247,13 +242,14 @@ void dataInput::printDataNew(unordered_map<string, unordered_map<string, Hospita
             for (auto month : hospital.second.getOrderedStatsMap())
             {
                 cout << "Data for month of " << month.first << "\n";
+                cout << "Capacity used: " << month.second.getPercentCapacityUsed() << "\n";
 
-                for (auto week : month.second)
+                /*for (auto week : month.second)
                 {
                     cout << "Total number of bed: " << week.getInpatientBeds() << "\n";
                     cout << "Total number of occupied beds: " << week.getOccupiedInpatientBeds() << "\n";
                     cout << "Total number of COVID occupied beds: " << week.getCovidInpatientBeds() << "\n";
-                }
+                }*/
             }
         }
     }

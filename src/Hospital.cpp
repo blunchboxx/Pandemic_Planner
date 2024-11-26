@@ -27,6 +27,7 @@ WeeklyStats::WeeklyStats(string date, string month, double total, double occupie
     collectionMonth = month;
 }
 
+// ToDo add additional stats to comparison
 bool WeeklyStats::operator==(const WeeklyStats rhs) const
 {
     bool isSame = false;
@@ -80,14 +81,15 @@ Hospital::Hospital(const string& pk, const string& hospitalName, const string& z
     geoCoords = make_pair(x,y);
 }
 
+// ToDo update to include comparison of weekly data
 bool Hospital::operator==(const Hospital& rhs) const
 {
     bool isSame = false;
 
     // If all hospital attributes are equal, objects are equal
     if ((this->hospital_pk == rhs.getHospitalPK())&&(this->name == rhs.getName())&&(this->zip == rhs.getZip())
-        &&(this->subtype == rhs.getSubtype())&&(this->geoCoords.first == rhs.getGeoCoords().first)
-        &&((this->geoCoords.second == rhs.getGeoCoords().second))&&(this->ordered_monthly_data == rhs.ordered_monthly_data))
+        &&(this->subtype == rhs.getSubtype()))
+        //&&(this->geoCoords.first == rhs.getGeoCoords().first)&&((this->geoCoords.second == rhs.getGeoCoords().second))&&(this->ordered_weekly_data == rhs.ordered_weekly_data))
     {
         isSame = true;
     }
@@ -101,8 +103,8 @@ bool Hospital::operator<(const Hospital& rhs) const
 }
 
 void Hospital::addWeeklyStats(const string& date, const WeeklyStats& stats){
-    ordered_monthly_data[date].push_back(stats);
-    unordered_monthly_data[date].push_back(stats);
+    ordered_weekly_data[date] = stats;
+    unordered_weekly_data[date] = stats;
 }
 
 string Hospital::getHospitalPK() const {
@@ -125,33 +127,33 @@ pair<double, double> Hospital::getGeoCoords() const {
     return geoCoords;
 }
 
-map<string, vector<WeeklyStats>>& Hospital::getOrderedStatsMap()
+map<string, WeeklyStats>& Hospital::getOrderedStatsMap()
 {
-    return ordered_monthly_data;
+    return ordered_weekly_data;
 }
 
-unordered_map<string,vector<WeeklyStats>>& Hospital::getUnorderedStatsMap()
+unordered_map<string,WeeklyStats>& Hospital::getUnorderedStatsMap()
 {
-    return unordered_monthly_data;
+    return unordered_weekly_data;
 }
 
-map<string, vector<WeeklyStats>> const & Hospital::getOrderedStatsMap() const
+map<string, WeeklyStats> const & Hospital::getOrderedStatsMap() const
 {
-    return ordered_monthly_data;
+    return ordered_weekly_data;
 }
-unordered_map<string, vector<WeeklyStats>> const & Hospital::getUnorderedStatsMap() const
+unordered_map<string, WeeklyStats> const & Hospital::getUnorderedStatsMap() const
 {
-    return unordered_monthly_data;
+    return unordered_weekly_data;
 }
 
 // TODO Update to return vector of weekly stats
 // If date wasn't found, a default Weekly Stats object is created and returned.
 WeeklyStats Hospital::getOrderedMonthlyStats(const string& date) const {
-    auto it = ordered_monthly_data.find(date);
-    return it->second[0]; // (it != ordered_monthly_data.end()) ? it->second : WeeklyStats();
+    auto it = ordered_weekly_data.find(date);
+    return (it != ordered_weekly_data.end()) ? it->second : WeeklyStats();
 }
 
 WeeklyStats Hospital::getUnorderedMonthlyStats(const string& date) const {
-    auto it = unordered_monthly_data.find(date);
-    return it->second[0]; //(it != unordered_monthly_data.end()) ? it->second : WeeklyStats();
+    auto it = unordered_weekly_data.find(date);
+    return (it != unordered_weekly_data.end()) ? it->second : WeeklyStats();
 }

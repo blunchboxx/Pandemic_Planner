@@ -29,6 +29,7 @@ TEST_CASE("Test: CATCH 2 CONFIG CHECK", "[given]")
     REQUIRE(actualOutput == expectedOutput);
 }
 
+// ToDo check that weekly and monthly data is being stored correctly
 TEST_CASE("Test: ReadFile", "[given]")
 {
     ifstream file;
@@ -39,9 +40,9 @@ TEST_CASE("Test: ReadFile", "[given]")
     Hospital hos2("100299", "LAKEWOOD RANCH MEDICAL CENTER", "34202", "Short Term", 0.0, 0.0);
 
     WeeklyStats week1("19-Jul-2020", "Jul-2020",401, 324, 49);
-    WeeklyStats week2("15-Aug-2020", "Aug-2021",115, 113, 54);
-    hos1.addWeeklyStats("7/19/2020", week1);
-    hos2.addWeeklyStats("8/15/2021", week2);
+    WeeklyStats week2("15-Aug-2021", "Aug-2021",115, 113, 54);
+    hos1.addWeeklyStats("Jul-2020", week1);
+    hos2.addWeeklyStats("Aug-2021", week2);
 
     unordered_map<string, Hospital> ALhospitalMap, FLhospitalMap;
 
@@ -59,6 +60,7 @@ TEST_CASE("Test: ReadFile", "[given]")
 
     for (auto object : actualOutput)
     {
+        cout << "Storing state " << object.first << "\n";
         actualOutput2.emplace(object);
     }
     /*for(auto state : actualOutput)

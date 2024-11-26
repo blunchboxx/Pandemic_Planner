@@ -43,8 +43,9 @@ private:
     string zip;
     string subtype;
     pair<double, double> geoCoords;
-    map<string, vector<WeeklyStats>> ordered_monthly_data;
-    unordered_map<string, vector<WeeklyStats>> unordered_monthly_data;
+    map<string, WeeklyStats> ordered_weekly_data;
+    unordered_map<string, WeeklyStats> unordered_weekly_data;
+    // Todo add monthly data map
 
 public:
     // Constructors
@@ -69,12 +70,12 @@ public:
     string getSubtype() const;
     pair<double, double> getGeoCoords() const;
     // Weekly stats Getters
-    map<string, vector<WeeklyStats>>& getOrderedStatsMap();
-    unordered_map<string, vector<WeeklyStats>>& getUnorderedStatsMap();
+    map<string, WeeklyStats>& getOrderedStatsMap();
+    unordered_map<string, WeeklyStats>& getUnorderedStatsMap();
 
     // Weekly stats CONST Getters
-    map<string, vector<WeeklyStats>> const & getOrderedStatsMap() const;
-    unordered_map<string, vector<WeeklyStats>> const & getUnorderedStatsMap() const;
+    map<string, WeeklyStats> const & getOrderedStatsMap() const;
+    unordered_map<string, WeeklyStats> const & getUnorderedStatsMap() const;
     WeeklyStats getOrderedMonthlyStats(const string& date) const;
     WeeklyStats getUnorderedMonthlyStats(const string& date) const;
 };
