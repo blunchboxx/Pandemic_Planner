@@ -26,12 +26,16 @@ public:
     // Equality operator overload
     bool operator==(const WeeklyStats rhs) const;
 
+    // Comparison operator overload
+    bool operator<(const WeeklyStats rhs) const;
+
     // Getters
     double getInpatientBeds() const;
     double getOccupiedInpatientBeds() const;
     double getCovidInpatientBeds() const;
     double getPercentCapacityUsed() const;
     double getCovidCapacityUsed() const;
+    string const & getMonth() const;
 
 };
 
@@ -45,7 +49,8 @@ private:
     pair<double, double> geoCoords;
     map<string, WeeklyStats> ordered_weekly_data;
     unordered_map<string, WeeklyStats> unordered_weekly_data;
-    // Todo add monthly data map
+    map<string, WeeklyStats> ordered_monthly_data;
+    unordered_map<string, WeeklyStats> unordered_monthly_data;
 
 public:
     // Constructors
@@ -69,15 +74,16 @@ public:
     string getZip() const;
     string getSubtype() const;
     pair<double, double> getGeoCoords() const;
-    // Weekly stats Getters
+
+    // Weekly stats Write Access Getters
     map<string, WeeklyStats>& getOrderedStatsMap();
     unordered_map<string, WeeklyStats>& getUnorderedStatsMap();
 
     // Weekly stats CONST Getters
     map<string, WeeklyStats> const & getOrderedStatsMap() const;
     unordered_map<string, WeeklyStats> const & getUnorderedStatsMap() const;
-    WeeklyStats getOrderedMonthlyStats(const string& date) const;
-    WeeklyStats getUnorderedMonthlyStats(const string& date) const;
+    WeeklyStats getOrderedWeeklyStats(const string& date) const;
+    WeeklyStats getUnorderedWeeklyStats(const string& date) const;
 };
 
 struct HospitalHash

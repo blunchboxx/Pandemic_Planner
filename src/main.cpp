@@ -71,6 +71,8 @@ int main()
     double elapsedTime = difftime(endTime, startTime);
 
     cout << "Elapsed time: " << elapsedTime << " seconds.\n";
+    cout << "Number of states imported: " << stateMap.size() << "\n";
+    cout << "Number of hospitals in FL: " << stateMap["FL"].size() << "\n";
 
     //data.printData(dataMap);
     //data.printDataNew(stateMap);

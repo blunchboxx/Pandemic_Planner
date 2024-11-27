@@ -41,6 +41,12 @@ bool WeeklyStats::operator==(const WeeklyStats rhs) const
     return isSame;
 }
 
+// Return true if week's percentage capacity used is greater than rhs
+bool WeeklyStats::operator<(const WeeklyStats rhs) const
+{
+    return percentCapacityUsed > rhs.percentCapacityUsed;
+}
+
 double WeeklyStats::getInpatientBeds() const {
     return inpatientBeds;
 }
@@ -60,6 +66,10 @@ double WeeklyStats::getPercentCapacityUsed() const
 double WeeklyStats::getCovidCapacityUsed() const
 {
     return percentCapacityCovid;
+}
+string const & WeeklyStats::getMonth() const
+{
+    return collectionMonth;
 }
     
 //Hospital
@@ -105,6 +115,13 @@ bool Hospital::operator<(const Hospital& rhs) const
 void Hospital::addWeeklyStats(const string& date, const WeeklyStats& stats){
     ordered_weekly_data[date] = stats;
     unordered_weekly_data[date] = stats;
+
+    // If new week is greater than previous greatest week in month, replace with new week
+    string month = stats.getMonth();
+    if (stats.getPercentCapacityUsed() > unordered_monthly_data[month].getPercentCapacityUsed())
+    {
+        unordered_monthly_data[month] = stats;
+    }
 }
 
 string Hospital::getHospitalPK() const {
@@ -146,14 +163,13 @@ unordered_map<string, WeeklyStats> const & Hospital::getUnorderedStatsMap() cons
     return unordered_weekly_data;
 }
 
-// TODO Update to return vector of weekly stats
 // If date wasn't found, a default Weekly Stats object is created and returned.
-WeeklyStats Hospital::getOrderedMonthlyStats(const string& date) const {
+WeeklyStats Hospital::getOrderedWeeklyStats(const string& date) const {
     auto it = ordered_weekly_data.find(date);
     return (it != ordered_weekly_data.end()) ? it->second : WeeklyStats();
 }
 
-WeeklyStats Hospital::getUnorderedMonthlyStats(const string& date) const {
+WeeklyStats Hospital::getUnorderedWeeklyStats(const string& date) const {
     auto it = unordered_weekly_data.find(date);
     return (it != unordered_weekly_data.end()) ? it->second : WeeklyStats();
 }
