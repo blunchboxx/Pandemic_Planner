@@ -78,14 +78,19 @@ public:
     // Weekly stats Write Access Getters
     map<string, WeeklyStats>& getOrderedStatsMap();
     unordered_map<string, WeeklyStats>& getUnorderedStatsMap();
+    map<string, WeeklyStats>& getOrderedMonthStatsMap();
+    unordered_map<string, WeeklyStats>& getUnorderedMonthStatsMap();
 
     // Weekly stats CONST Getters
     map<string, WeeklyStats> const & getOrderedStatsMap() const;
     unordered_map<string, WeeklyStats> const & getUnorderedStatsMap() const;
     WeeklyStats getOrderedWeeklyStats(const string& date) const;
     WeeklyStats getUnorderedWeeklyStats(const string& date) const;
+    map<string, WeeklyStats> const & getOrderedMonthStatsMap() const;
+    unordered_map<string, WeeklyStats> const & getUnorderedMonthStatsMap() const;
 };
 
+// Hash function for Hospital objects
 struct HospitalHash
 {
     size_t operator()(const Hospital& hospital) const

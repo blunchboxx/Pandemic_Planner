@@ -39,8 +39,8 @@ TEST_CASE("Test: ReadFile", "[given]")
     Hospital hos1("010001", "SOUTHEAST HEALTH MEDICAL CENTER", "36301", "Short Term", 0.0, 0.0);
     Hospital hos2("100299", "LAKEWOOD RANCH MEDICAL CENTER", "34202", "Short Term", 0.0, 0.0);
 
-    WeeklyStats week1("19-Jul-2020", "Jul-2020",401, 324, 49);
-    WeeklyStats week2("15-Aug-2021", "Aug-2021",115, 113, 54);
+    WeeklyStats week1("19-Jul-2020", "Jul-2020",401.4, 324.4, 49);
+    WeeklyStats week2("15-Aug-2021", "Aug-2021",115.7, 113.6, 54);
     hos1.addWeeklyStats("Jul-2020", week1);
     hos2.addWeeklyStats("Aug-2021", week2);
 
@@ -56,7 +56,7 @@ TEST_CASE("Test: ReadFile", "[given]")
     expectedOutput.emplace("FL", FLhospitalMap);
     expectedOutput.emplace("AL", ALhospitalMap);
 
-    data.readFileNew(file, path, actualOutput);
+    data.readFile(file, path, actualOutput);
 
     for (auto object : actualOutput)
     {
@@ -77,6 +77,38 @@ TEST_CASE("Test: ReadFile", "[given]")
             }#1#
         }
     }*/
+
+    cout << "MONTHLY STATS TEST - ExpectedOutput: \n";
+
+    for (auto output : expectedOutput)
+    {
+        cout << output.first << "\n";
+        for (auto hos : output.second)
+        {
+            cout << "Size of monthly data stored " << hos.second.getOrderedMonthStatsMap().size() << "\n";
+            cout << hos.second.getName() << " ";
+            for (auto month_data : hos.second.getOrderedMonthStatsMap())
+            {
+                cout << month_data.first << " " << month_data.second.getPercentCapacityUsed() << "\n";
+            }
+        }
+        cout << "\n";
+    }
+    cout << "\n";
+    cout << "MONTHLY STATS TEST - ActualOutput: \n";
+    for (auto output : actualOutput2)
+    {
+        cout << output.first << "\n";
+        for (auto hos : output.second)
+        {
+            cout << hos.second.getName() << " ";
+            for (auto month_data : hos.second.getOrderedMonthStatsMap())
+            {
+                cout << month_data.first << " " << month_data.second.getPercentCapacityUsed() << "\n";
+            }
+        }
+        cout << "\n";
+    }
 
     REQUIRE(actualOutput2 == expectedOutput);
 }

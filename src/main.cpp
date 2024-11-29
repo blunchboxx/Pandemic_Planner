@@ -7,9 +7,9 @@
 #include <string>
 #include <map>
 #include <unordered_map>
+#include <queue>
 #include <ctime>
 #include "MemoryMapped.h"
-#include "State.h"
 #include "Hospital.h"
 #include "dataInput.h"
 #include <filesystem>
@@ -20,20 +20,35 @@ using namespace std;
 // Try mapping hospitals to their stats - eliminate weekly stats and make it attribute of hospital
 // Each row could be singular object?
 // Can create a database after data is parsed to reference
-void retrieveData(unordered_map<string, unordered_map<string, Hospital>>& map, vector<string> dates, vector<string> states)
+vector<Hospital> retrieveData(unordered_map<string, unordered_map<string, Hospital>>& hospitalMap, vector<string> dates,
+                              vector<string> states)
 {
-    string hospitalPK;
+    //vector<string> hospitals;
+    vector<Hospital> hospitalVector;
+    priority_queue<pair<double, string>> pq;
 
     for (auto state : states)
     {
         for (auto date : dates)
         {
-            for (auto hospital : map[state])
+            for (auto hospital : hospitalMap[state])
             {
                 // TODO implement method to retrieve and store weekly stats and compare to find largest
+                WeeklyStats newMonth = hospital.second.getUnorderedMonthStatsMap()[date];
+                pair<double, string> nextHos = make_pair(hospital.second.getUnorderedMonthStatsMap()[date].getPercentCapacityUsed(),
+                    hospital.first);
+                pq.push((nextHos));
             }
         }
+        for (int i = 0; i < 10; i++)
+        {
+            string hospitalPK = pq.top().second;
+            hospitalVector.push_back(hospitalMap[state][hospitalPK]);
+            pq.pop();
+        }
     }
+
+    return hospitalVector;
 }
 
 bool validateState(string command)
@@ -53,7 +68,7 @@ int main()
 
     time_t startTime = time(0);
 
-    unordered_map<string, State> dataMap;
+    // Map of all imported data
     unordered_map<string, unordered_map<string, Hospital>> stateMap;
 
     dataInput data;
@@ -63,9 +78,8 @@ int main()
         //"C:\\dev\\COP3530\\Projects\\Project 3\\Pandemic_Planner\\test-data\\testFile1.csv";
         //"data\\COVID-19_Data.csv";
 
-    //data.readFile(dataFile, path, dataMap);
-    data.readFileNew(dataFile, path, stateMap);
-    //data.printData(dataMap);
+    // Import all data
+    data.readFile(dataFile, path, stateMap);
 
     time_t endTime = time(0);
     double elapsedTime = difftime(endTime, startTime);
@@ -74,38 +88,48 @@ int main()
     cout << "Number of states imported: " << stateMap.size() << "\n";
     cout << "Number of hospitals in FL: " << stateMap["FL"].size() << "\n";
 
-    //data.printData(dataMap);
-    //data.printDataNew(stateMap);
-
-    /*for (auto state : stateMap)
-    {
-        cout << state.first << ": " << state.second.size() << " hospitals.\n";
-    }*/
-
-    int selection = 0;
+    // Loop for menu and app selections
+    string selection = "0";
     cout << "Make program selections (enter -1 to exit): \n";
     cin >> selection;
     cout << endl;
 
-    while (selection != -1)
+    while (selection != "-1")
     {
-        string input;
+        string state;
         string date;
         vector<string> states, dates;
+        vector<Hospital> hospitals;
         printMenu();
-        cin >> input;
+        cin >> state;
+        while (!validateState(state))
+        {
+            cout << "Invalid selection. Try again: \n";
+            cin >> state;
+            cout << "\n";
+        }
 
-        cout << endl << "Input month and year to view (e.g. May 2020)\n";
+        cout << endl << "Input month and year to view (e.g. May-2020)\n";
         cin >> date;
         cout << endl;
 
-        states.push_back(input);
+        states.push_back(state);
 
         dates.push_back(date);
 
-        retrieveData(stateMap, dates, states);
-    }
+        hospitals = retrieveData(stateMap, dates, states);
 
+        cout << "Hospitals with highest capacity used in " << state << " in " << date << ": \n";
+        for (auto hospital : hospitals)
+        {
+            cout << hospital.getName() << " " << hospital.getZip() << ": " << hospital.getUnorderedMonthStatsMap()[date].getPercentCapacityUsed() << "%\n";
+        }
+
+        selection.clear();
+        cout << "Do you wish to continue? (Enter -1 to exit)\n";
+        cin >> selection;
+        cout << '\n';
+    }
 
     return 0;
 }

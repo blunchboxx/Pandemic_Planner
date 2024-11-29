@@ -113,14 +113,23 @@ bool Hospital::operator<(const Hospital& rhs) const
 }
 
 void Hospital::addWeeklyStats(const string& date, const WeeklyStats& stats){
+    // Add week to weekly maps
     ordered_weekly_data[date] = stats;
     unordered_weekly_data[date] = stats;
 
-    // If new week is greater than previous greatest week in month, replace with new week
+    // If no data for month or if new week is greater than previous greatest week in month, replace with new week
     string month = stats.getMonth();
-    if (stats.getPercentCapacityUsed() > unordered_monthly_data[month].getPercentCapacityUsed())
+    if (unordered_monthly_data.find(month) == unordered_monthly_data.end())
     {
+        unordered_monthly_data.insert(make_pair(month, stats));
+        ordered_monthly_data.insert(make_pair(month, stats));
+    }
+    else if (stats.getPercentCapacityUsed() > unordered_monthly_data[month].getPercentCapacityUsed())
+    {
+        /*unordered_monthly_data.insert(make_pair(month, stats));
+        ordered_monthly_data.insert(make_pair(month, stats));*/
         unordered_monthly_data[month] = stats;
+        ordered_monthly_data[month] = stats;
     }
 }
 
@@ -154,6 +163,15 @@ unordered_map<string,WeeklyStats>& Hospital::getUnorderedStatsMap()
     return unordered_weekly_data;
 }
 
+map<string, WeeklyStats>& Hospital::getOrderedMonthStatsMap()
+{
+    return ordered_monthly_data;
+}
+unordered_map<string, WeeklyStats>& Hospital::getUnorderedMonthStatsMap()
+{
+    return unordered_monthly_data;
+}
+
 map<string, WeeklyStats> const & Hospital::getOrderedStatsMap() const
 {
     return ordered_weekly_data;
@@ -161,6 +179,15 @@ map<string, WeeklyStats> const & Hospital::getOrderedStatsMap() const
 unordered_map<string, WeeklyStats> const & Hospital::getUnorderedStatsMap() const
 {
     return unordered_weekly_data;
+}
+
+map<string, WeeklyStats> const & Hospital::getOrderedMonthStatsMap() const
+{
+    return ordered_monthly_data;
+}
+unordered_map<string, WeeklyStats> const & Hospital::getUnorderedMonthStatsMap() const
+{
+    return unordered_monthly_data;
 }
 
 // If date wasn't found, a default Weekly Stats object is created and returned.
