@@ -1,0 +1,3 @@
+hospital_pk,collection_week,state,ccn,hospital_name,address,city,zip,hospital_subtype,is_metro_micro,total_beds_7_day_avg,inpatient_beds_used_7_day_avg,inpatient_beds_used_covid_7_day_avg,geocoded_hospital_address
+010001,19-Jul-2020,AL,010001,SOUTHEAST HEALTH MEDICAL CENTER,1108 ROSS CLARK CIRCLE,DOTHAN,36301,Short Term,TRUE,401.4,324.4,49.2,POINT (-85.363339998 31.21623002)
+100299,15-Aug-2021,FL,100299,LAKEWOOD RANCH MEDICAL CENTER,8330 LAKEWOOD RANCH BLVD,BRADENTON,34202,Short Term,TRUE,115.7,113.6,54.4,POINT (-82.435344999 27.390885985)
