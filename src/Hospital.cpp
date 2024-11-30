@@ -106,11 +106,12 @@ bool Hospital::operator==(const Hospital& rhs) const
     return isSame;
 }
 
-bool Hospital::operator<(const Hospital& rhs) const
-{
-    // TODO implement method to compare weekly stats between hospitals
-    return hospital_pk > rhs.hospital_pk;
-}
+//Commenting this out for now since I don't think this is an accurate comparison -- I'm pretty sure this is currently being done another way.
+// bool Hospital::operator<(const Hospital& rhs) const
+// {
+//     // TODO implement method to compare weekly stats between hospitals
+//     return hospital_pk > rhs.hospital_pk;
+// }
 
 void Hospital::addWeeklyStats(const string& date, const WeeklyStats& stats){
     // Add week to weekly maps

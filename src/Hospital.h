@@ -60,8 +60,9 @@ public:
     // Equality operator overload
     bool operator==(const Hospital& rhs) const;
 
-    // Comparison operator overload
-    bool operator<(const Hospital& rhs) const;
+// Commenting this out for now since I don't think it does anything.
+    // // Comparison operator overload
+    // bool operator<(const Hospital& rhs) const;
 
     // Adding weekly data
     void addWeeklyStats(const string& date, const WeeklyStats&);

@@ -68,16 +68,32 @@ void printMenu()
     cout << "1. FL\n2. GA\n3. AL\n4. MS\n5. TN\n6. SC\n7. NC\n";
 }
 
+// Helper function that formats the hospital list for the endpoint
+string formatHospitalList(const vector<Hospital>& hospitals, const string& date) {
+    stringstream response;
+    for (const auto& hospital : hospitals) {
+        const auto& monthStats = hospital.getUnorderedMonthStatsMap();
+        // Check if the date is in the map before accessing it
+        if (monthStats.find(date) != monthStats.end()) {
+            response << hospital.getName() << " " 
+                    << hospital.getZip() << ": " 
+                << monthStats.at(date).getPercentCapacityUsed() 
+                << "%\n";
+        }
+    }
+    return response.str();
+}
+
 // I had to add argc and argv to main to get the current path to the data file
 int main(int argc, char* argv[])
 {
     crow::SimpleApp app;
 
-    // Add this test endpoint
-    CROW_ROUTE(app, "/api/test")
-    ([]() {
-        return "Hello World!";
-    });
+    // Test endpoint
+    // CROW_ROUTE(app, "/api/test")
+    // ([]() {
+    //     return "Hello World!";
+    // });
 
     time_t startTime = time(0);
 
@@ -86,7 +102,7 @@ int main(int argc, char* argv[])
 
     dataInput data;
     ifstream dataFile;
-    // Change working directory to the parent of the executable
+    // Changed working directory to the parent of the executable
     filesystem::current_path(filesystem::path(argv[0]).parent_path());
     string path = "../data/COVID-19_Data_scrubbed_no99999.csv";
 
@@ -104,51 +120,81 @@ int main(int argc, char* argv[])
     cout << "Number of states imported: " << stateMap.size() << "\n";
     cout << "Number of hospitals in FL: " << stateMap["FL"].size() << "\n";
 
-    // Loop for menu and app selections
-    string selection = "0";
-    cout << "Make program selections (enter -1 to exit): \n";
-    cin >> selection;
-    cout << endl;
-
-    while (selection != "-1")
-    {
-        string state;
-        string date;
-        vector<string> states, dates;
-        vector<Hospital> hospitals;
-        printMenu();
-        cin >> state;
-        while (!validateState(state))
-        {
-            cout << "Invalid selection. Try again: \n";
-            cin >> state;
-            cout << "\n";
+    CROW_ROUTE(app, "/api/hospitals/capacity")
+    .methods("GET"_method)
+    ([&stateMap](const crow::request& req) {
+        auto state = req.url_params.get("state");
+        auto date = req.url_params.get("date");
+    
+        if (!state || !date || !validateState(string(state))) {
+            return crow::response(400, "Invalid state or date parameter");
         }
 
-        cout << endl << "Input month and year to view (e.g. May-2020)\n";
-        cin >> date;
-        cout << endl;
+        vector<string> states{state};
+        vector<string> dates{date};
+        vector<Hospital> hospitals = retrieveData(stateMap, dates, states);
 
-        states.push_back(state);
-
-        dates.push_back(date);
-
-        hospitals = retrieveData(stateMap, dates, states);
-
-        cout << "Hospitals with highest capacity used in " << state << " in " << date << ": \n";
-        for (auto hospital : hospitals)
-        {
-            cout << hospital.getName() << " " << hospital.getZip() << ": " << hospital.getUnorderedMonthStatsMap()[date].getPercentCapacityUsed() << "%\n";
+        // Check if we got any results
+        if (hospitals.empty()) {
+            return crow::response(404, 
+                "No data available for " + string(state) + " during " + string(date));
         }
 
-        selection.clear();
-        cout << "Do you wish to continue? (Enter -1 to exit)\n";
-        cin >> selection;
-        cout << '\n';
-    }
+        string response = formatHospitalList(hospitals, date);
+        if (response.empty()) {
+            return crow::response(404, 
+                "No capacity data available for " + string(state) + " during " + string(date));
+        }
+    
+        return crow::response(200, response);
+    });
 
-    // Add this at the end of main() to start the server
-    app.port(3000).run();
+    // // Loop for menu and app selections
+    // string selection = "0";
+    // cout << "Make program selections (enter -1 to exit): \n";
+    // cin >> selection;
+    // cout << endl;
+
+    // while (selection != "-1")
+    // {
+    //     string state;
+    //     string date;
+    //     vector<string> states, dates;
+    //     vector<Hospital> hospitals;
+    //     printMenu();
+    //     cin >> state;
+    //     while (!validateState(state))
+    //     {
+    //         cout << "Invalid selection. Try again: \n";
+    //         cin >> state;
+    //         cout << "\n";
+    //     }
+
+    //     cout << endl << "Input month and year to view (e.g. May-2020)\n";
+    //     cin >> date;
+    //     cout << endl;
+
+    //     states.push_back(state);
+
+    //     dates.push_back(date);
+
+    //     hospitals = retrieveData(stateMap, dates, states);
+
+    //     cout << "Hospitals with highest capacity used in " << state << " in " << date << ": \n";
+    //     for (auto hospital : hospitals)
+    //     {
+    //         cout << hospital.getName() << " " << hospital.getZip() << ": " << hospital.getUnorderedMonthStatsMap()[date].getPercentCapacityUsed() << "%\n";
+    //     }
+
+    //     selection.clear();
+    //     cout << "Do you wish to continue? (Enter -1 to exit)\n";
+    //     cin >> selection;
+    //     cout << '\n';
+    // }
+
+
+    // Start the server on port 8080
+    app.port(8080).run();
     
     return 0;
 }
