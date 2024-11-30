@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Imports/includes -->
+    <link rel="stylesheet" href="./css/home.css">
+    <script src="./js/home.js"></script>
+
+    <!-- What is displayed in the user's tab -->
+    <title>Pandemic Planner</title>
+</head>
+
+
+<body>
+
+    <!-- heading of the page -->
+    <h1>Welcome to the Pandemic Planner!</h1>
+
+
+    <!-- description of hotspot -->
+    <div>
+        <p class="def"><strong> Hotspot</strong> - 90% of hospital's beds are occupied, with at least 10 beds being used for COVID-19.</p>
+    </div>
+
+
+    <!-- This is a table that houses all the page info -->
+    <table class="center">
+
+        <!-- top two boxes -->
+        <tr>
+            <th>
+                <!-- state selection section of page -->
+                <div class="top_base_box">
+                    <h2>State Selector</h2>
+                    <div>
+                        <h3>Select a State</h3>
+
+                        <!-- state selection -->
+                        <form>
+                            <select id="state">
+                                <option value="Alabama">Alabama</option>
+                                <option value="Florida">Florida</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Mississippi">Mississippi</option>
+                                <option value="North_Carolina">North Carolina</option>
+                                <option value="South_Carolina">South Carolina</option>
+                                <option value="Tennessee">Tennessee</option>
+                            </select>
+                        </form>
+                        <br><button type="button" onclick="get_data_state()" class="press_me">Filter by State</button>
+
+                    </div>
+
+
+                </div>
+            </th>
+
+
+            <th>
+                <!-- date selection section of page -->
+                <div class="top_base_box">
+                    <h2>Date Selector</h2>
+
+                    <div>
+                        <h3>Select a Month</h3>
+                        <!-- month selection -->
+                        <form>
+                            <select id="month">
+                                <option value="January">January</option>
+                                <option value="Febuary">Febuary</option>
+                                <option value="March">March</option>
+                                <option value="April">April</option>
+                                <option value="May">May</option>
+                                <option value="June">June</option>
+                                <option value="July">July</option>
+                                <option value="August">August</option>
+                                <option value="September">September</option>
+                                <option value="October">October</option>
+                                <option value="Novemeber">Novemeber</option>
+                                <option value="Decemeber">Decemeber</option>
+                            </select>
+                        </form>
+                    </div>
+
+
+                    <div>
+                        <br />
+                        <h3>Select a Year</h3>
+
+                        <!-- year selection -->
+                        <form>
+                            <select id="year">
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                            </select>
+                        </form>
+                    </div>
+
+                    <br><button type="button" onclick="get_data_date()" class="press_me">Filter by Date</button>
+                    <button type="button" onclick="complete_reset()" class="press_me">Reset</button>
+                </div>
+            </th>
+        </tr>
+
+
+        <!-- bottom two boxes -->
+        <tr>
+            <th>
+                <!-- picture section of page -->
+                <div id="image_section" class="img_section">
+                    <h2>South East US</h2>
+
+                </div>
+            </th>
+
+            <th>
+                <!-- hot spot section of page -->
+                <div id="hot_section" class="hot_spot">
+                    <h2 id="hot_words">Top 10 Hotspots Will Be Displayed Here</h2>
+
+                    <div id="hot_holder" class="hot_holder">
+                        <ol type="1" class="list_holder">
+                            <li id="one" data value="1">Hospital Name</li>
+                            <br>
+                            <li id="two" data value="2">Hospital Name</li>
+                            <br>
+                            <li id="three" data value="3">Hospital Name</li>
+                            <br>
+                            <li id="four" data value="4">Hospital Name</li>
+                            <br>
+                            <li id="five" data value="5">Hospital Name</li>
+                            <br>
+                            <li id="six" data value="6">Hospital Name</li>
+                            <br>
+                            <li id="seven" data value="7">Hospital Name</li>
+                            <br>
+                            <li id="eight" data value="8">Hospital Name</li>
+                            <br>
+                            <li id="nine" data value="9">Hospital Name</li>
+                            <br>
+                            <li id="ten" data value="10">Hospital Name</li>
+                            <br>
+                        </ol>
+                    </div>
+                </div>
+            </th>
+        </tr>
+    </table>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+body {
+    /* Background color and picture */
+    background-image: url('../img/background.jpg');
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+
+/* default values for heading 1 */
+h1 {
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 60px;
+}
+
+/* default values for heading 2 */
+h2 {
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 25px;
+    letter-spacing: 1.5px;
+    background-color: #d0cfd7;
+}
+
+/* default values for heading 3 */
+h3 {
+    font-size: 20px;
+    letter-spacing: 1px;
+    background-color: #dce3ff;
+}
+
+/* the default values for the three available selections */
+select {
+    font-size: 15px;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+}
+
+/* default values for table */
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* default values for ordered list */
+.list_holder {
+    text-align: center;
+    list-style-position: inside;
+}
+
+/* the base details for the top two boxes */
+.top_base_box {
+    width: 600px;
+    height: 350px;
+    margin: 30px;
+    border: 25px;
+    border-style: solid;
+    border-color: #06177d;
+    background-color: #86c1f2;
+    background-attachment: fixed;
+}
+
+
+
+/* the section that displays our data */
+.hot_holder {
+    display: none;
+    text-align: center;
+}
+
+/* description section */
+.def {
+    font-family: sans-serif;
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 845px;
+    height: 30px;
+    font-style: italic;
+    background-color: #b1afafbf;
+}
+
+/* state image section details */
+.img_section {
+    width: 600px;
+    height: 475px;
+    margin: 30px;
+    border: 25px;
+    border-style: solid;
+    border-color: #06177d;
+    background-color: #86c1f2;
+    background-image: url('../img/fresh_states.png');
+}
+
+/* hot spot section details */
+.hot_spot {
+    width: 600px;
+    height: 475px;
+    margin: 30px;
+    border: 25px;
+    border-style: solid;
+    border-color: #06177d;
+    background-color: #86c1f2;
+    background-attachment: fixed;
+}
+
+
+
+/* Submit and Reset button details */
+.press_me {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 15px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #022772;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px #999;
+}
+
+.press_me:hover {
+    background-color: #90a1f3
+}
+
+.press_me:active {
+    background-color: #f00f;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
