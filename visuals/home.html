@@ -29,14 +29,14 @@
 
         <!-- top two boxes -->
         <tr>
+            <!-- state selection section of page -->
             <th>
-                <!-- state selection section of page -->
                 <div class="top_base_box">
                     <h2>State Selector</h2>
                     <div>
                         <h3>Select a State</h3>
 
-                        <!-- state selection -->
+                        <!-- user selection -->
                         <form>
                             <select id="state">
                                 <option value="Alabama">Alabama</option>
@@ -47,24 +47,26 @@
                                 <option value="South_Carolina">South Carolina</option>
                                 <option value="Tennessee">Tennessee</option>
                             </select>
+
                         </form>
+
+                        <!-- buttons -->
                         <br><button type="button" onclick="get_data_state()" class="press_me">Filter by State</button>
-
                     </div>
-
-
                 </div>
             </th>
 
 
+            <!-- date selection section of page -->
             <th>
-                <!-- date selection section of page -->
                 <div class="top_base_box">
                     <h2>Date Selector</h2>
 
+                    <!-- month selection -->
                     <div>
                         <h3>Select a Month</h3>
-                        <!-- month selection -->
+
+                        <!-- user selection -->
                         <form>
                             <select id="month">
                                 <option value="January">January</option>
@@ -83,12 +85,12 @@
                         </form>
                     </div>
 
-
+                    <!-- year selection -->
                     <div>
-                        <br />
+                        <br>
                         <h3>Select a Year</h3>
 
-                        <!-- year selection -->
+                        <!-- user selection -->
                         <form>
                             <select id="year">
                                 <option value="2020">2020</option>
@@ -99,6 +101,7 @@
                         </form>
                     </div>
 
+                    <!-- buttons -->
                     <br><button type="button" onclick="get_data_date()" class="press_me">Filter by Date</button>
                     <button type="button" onclick="complete_reset()" class="press_me">Reset</button>
                 </div>
@@ -108,19 +111,23 @@
 
         <!-- bottom two boxes -->
         <tr>
+
+            <!-- picture section of page -->
             <th>
-                <!-- picture section of page -->
                 <div id="image_section" class="img_section">
                     <h2>South East US</h2>
 
                 </div>
             </th>
 
+            <!-- hot spot section of page -->
             <th>
-                <!-- hot spot section of page -->
+
+                <!-- hot spot heading -->
                 <div id="hot_section" class="hot_spot">
                     <h2 id="hot_words">Top 10 Hotspots Will Be Displayed Here</h2>
 
+                    <!-- hot spot data -->
                     <div id="hot_holder" class="hot_holder">
                         <ol type="1" class="list_holder">
                             <li id="one" data value="1">Hospital Name</li>
