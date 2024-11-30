@@ -9,8 +9,6 @@
 #include <unordered_map>
 #include <queue>
 #include <ctime>
-//commenting the line below out since the header file is not actually included in git; i'm assuming this is no longer necessary -st 11/29
-// #include "MemoryMapped.h"
 #include "Hospital.h"
 #include "dataInput.h"
 #include <filesystem>
@@ -45,8 +43,7 @@ vector<Hospital> retrieveData(unordered_map<string, unordered_map<string, Hospit
                 pq.push((nextHos));
             }
         }
-        for (int i = 0; i < 10; i++)
-        {
+        while (!pq.empty() && hospitalVector.size() < 10) {
             string hospitalPK = pq.top().second;
             hospitalVector.push_back(hospitalMap[state][hospitalPK]);
             pq.pop();
@@ -89,12 +86,6 @@ int main(int argc, char* argv[])
 {
     crow::SimpleApp app;
 
-    // Test endpoint
-    // CROW_ROUTE(app, "/api/test")
-    // ([]() {
-    //     return "Hello World!";
-    // });
-
     time_t startTime = time(0);
 
     // Map of all imported data
@@ -105,10 +96,6 @@ int main(int argc, char* argv[])
     // Changed working directory to the parent of the executable
     filesystem::current_path(filesystem::path(argv[0]).parent_path());
     string path = "../data/COVID-19_Data_scrubbed_no99999.csv";
-
-    //string path = "../data/COVID-19_Data_scrubbed_no99999.csv";
-    //cout << "Current path: " << filesystem::current_path() << endl;
-    // string path = "C:\\dev\\COP3530\\Projects\\Project 3\\Pandemic_Planner\\data\\COVID-19_Data_scrubbed_no99999.csv";
 
     // Import all data
     data.readFile(dataFile, path, stateMap);
@@ -148,50 +135,6 @@ int main(int argc, char* argv[])
     
         return crow::response(200, response);
     });
-
-    // // Loop for menu and app selections
-    // string selection = "0";
-    // cout << "Make program selections (enter -1 to exit): \n";
-    // cin >> selection;
-    // cout << endl;
-
-    // while (selection != "-1")
-    // {
-    //     string state;
-    //     string date;
-    //     vector<string> states, dates;
-    //     vector<Hospital> hospitals;
-    //     printMenu();
-    //     cin >> state;
-    //     while (!validateState(state))
-    //     {
-    //         cout << "Invalid selection. Try again: \n";
-    //         cin >> state;
-    //         cout << "\n";
-    //     }
-
-    //     cout << endl << "Input month and year to view (e.g. May-2020)\n";
-    //     cin >> date;
-    //     cout << endl;
-
-    //     states.push_back(state);
-
-    //     dates.push_back(date);
-
-    //     hospitals = retrieveData(stateMap, dates, states);
-
-    //     cout << "Hospitals with highest capacity used in " << state << " in " << date << ": \n";
-    //     for (auto hospital : hospitals)
-    //     {
-    //         cout << hospital.getName() << " " << hospital.getZip() << ": " << hospital.getUnorderedMonthStatsMap()[date].getPercentCapacityUsed() << "%\n";
-    //     }
-
-    //     selection.clear();
-    //     cout << "Do you wish to continue? (Enter -1 to exit)\n";
-    //     cin >> selection;
-    //     cout << '\n';
-    // }
-
 
     // Start the server on port 8080
     app.port(8080).run();
