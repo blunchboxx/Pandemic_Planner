@@ -7,6 +7,9 @@ set(CMAKE_CXX_STANDARD 14)
 set(GCC_COVERAGE_COMPILE_FLAGS "-Wall -Werror")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}" )
 
+# Find required packages for Crow
+find_package(Threads REQUIRED)
+
 #pull in desired version of catch through cmake automatically, make it available
 Include(FetchContent)
 FetchContent_Declare(
@@ -18,6 +21,8 @@ FetchContent_MakeAvailable(Catch2)
 
 include_directories(src)
 include_directories(test-unit)
+include_directories(${CROW_INCLUDE_DIR})
+include_directories("/usr/local/Cellar/asio/1.30.2/include")
 
 add_executable(Main
         src/main.cpp
@@ -28,6 +33,9 @@ add_executable(Main
         src/dataInput.cpp
         src/dataInput.h
 )
+
+# Link required libraries for Crow
+target_link_libraries(Main PRIVATE Threads::Threads)
 
 add_executable(Tests
         test-unit/test.cpp

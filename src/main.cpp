@@ -9,10 +9,15 @@
 #include <unordered_map>
 #include <queue>
 #include <ctime>
-#include "MemoryMapped.h"
+//commenting the line below out since the header file is not actually included in git; i'm assuming this is no longer necessary -st 11/29
+// #include "MemoryMapped.h"
 #include "Hospital.h"
 #include "dataInput.h"
 #include <filesystem>
+#include "crow_all.h"
+
+#define ASIO_STANDALONE
+
 using namespace std;
 //namespace fs = std::filesystem;
 
@@ -63,8 +68,16 @@ void printMenu()
     cout << "1. FL\n2. GA\n3. AL\n4. MS\n5. TN\n6. SC\n7. NC\n";
 }
 
-int main()
+// I had to add argc and argv to main to get the current path to the data file
+int main(int argc, char* argv[])
 {
+    crow::SimpleApp app;
+
+    // Add this test endpoint
+    CROW_ROUTE(app, "/api/test")
+    ([]() {
+        return "Hello World!";
+    });
 
     time_t startTime = time(0);
 
@@ -73,10 +86,13 @@ int main()
 
     dataInput data;
     ifstream dataFile;
-    string path = "C:\\dev\\COP3530\\Projects\\Project 3\\Pandemic_Planner\\data\\COVID-19_Data_scrubbed_no99999.csv";
-        // Full path to test data file
-        //"C:\\dev\\COP3530\\Projects\\Project 3\\Pandemic_Planner\\test-data\\testFile1.csv";
-        //"data\\COVID-19_Data.csv";
+    // Change working directory to the parent of the executable
+    filesystem::current_path(filesystem::path(argv[0]).parent_path());
+    string path = "../data/COVID-19_Data_scrubbed_no99999.csv";
+
+    //string path = "../data/COVID-19_Data_scrubbed_no99999.csv";
+    //cout << "Current path: " << filesystem::current_path() << endl;
+    // string path = "C:\\dev\\COP3530\\Projects\\Project 3\\Pandemic_Planner\\data\\COVID-19_Data_scrubbed_no99999.csv";
 
     // Import all data
     data.readFile(dataFile, path, stateMap);
@@ -131,5 +147,8 @@ int main()
         cout << '\n';
     }
 
+    // Add this at the end of main() to start the server
+    app.port(3000).run();
+    
     return 0;
 }

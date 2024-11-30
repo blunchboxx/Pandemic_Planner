@@ -10,7 +10,8 @@
 #include <map>
 #include <unordered_map>
 #include <stdexcept>
-#include "MemoryMapped.h"
+//commenting the line below out since the header file is not actually included in git; i'm assuming this is no longer necessary -st 11/29
+//#include "MemoryMapped.h"
 #include "State.h"
 #include "Hospital.h"
 #include "dataInput.h"
