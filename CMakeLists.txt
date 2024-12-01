@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.29)
 project(Pandemic_Planner)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 #recommended by aman to match test environment
 set(GCC_COVERAGE_COMPILE_FLAGS "-Wall -Werror")
@@ -9,6 +9,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}" )
 
 # Find required packages for Crow
 find_package(Threads REQUIRED)
+
+# Find required packages for asio
+find_package(asio CONFIG REQUIRED)
 
 #pull in desired version of catch through cmake automatically, make it available
 Include(FetchContent)
@@ -36,6 +39,12 @@ add_executable(Main
 
 # Link required libraries for Crow
 target_link_libraries(Main PRIVATE Threads::Threads)
+target_link_libraries(Main PRIVATE asio::asio)
+target_link_libraries(Main PRIVATE -lws2_32 -lwsock32 )
+if(MINGW)
+    target_link_libraries(Main PRIVATE ws2_32)
+endif()
+# target_link_libraries(Main PRIVATE Boost::boost Boost::program_options)
 
 add_executable(Tests
         test-unit/test.cpp

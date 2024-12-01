@@ -36,7 +36,6 @@ vector<Hospital> retrieveData(unordered_map<string, unordered_map<string, Hospit
         {
             for (auto hospital : hospitalMap[state])
             {
-                // TODO implement method to retrieve and store weekly stats and compare to find largest
                 WeeklyStats newMonth = hospital.second.getUnorderedMonthStatsMap()[date];
                 pair<double, string> nextHos = make_pair(hospital.second.getUnorderedMonthStatsMap()[date].getPercentCapacityUsed(),
                     hospital.first);
