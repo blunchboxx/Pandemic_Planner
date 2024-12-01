@@ -34,24 +34,42 @@ vector<Hospital> retrieveData(unordered_map<string, unordered_map<string, Hospit
     {
         for (auto date : dates)
         {
+            // Skip if the state is not in the map
+            if (hospitalMap.find(state) == hospitalMap.end()) { continue; }
+
             for (auto hospital : hospitalMap[state])
             {
-                WeeklyStats newMonth = hospital.second.getUnorderedMonthStatsMap()[date];
-                pair<double, string> nextHos = make_pair(hospital.second.getUnorderedMonthStatsMap()[date].getPercentCapacityUsed(),
-                    hospital.first);
-                pq.push((nextHos));
+                auto statsMap = hospital.second.getUnorderedMonthStatsMap();
+
+                for (auto date : dates)
+                {
+                    if (statsMap.find(date) != statsMap.end())
+                    {
+                        auto stats = statsMap[date];
+                        double capacityUsed = stats.getPercentCapacityUsed();
+
+                        pq.emplace(capacityUsed, hospital.first);
+                    }
+                }
+                while (!pq.empty() && hospitalVector.size() < 10)
+                {
+                    string hospitalPK = pq.top().second;
+                    pq.pop();
+                    for (auto state : states)
+                    {
+                        if ((hospitalMap.find(state) != hospitalMap.end())
+                            && (hospitalMap[state].find(hospitalPK) != hospitalMap[state].end()))
+                        {
+                            hospitalVector.push_back(hospitalMap[state][hospitalPK]);
+                            break;
+                        }
+                    }
+                }
             }
         }
-        while (!pq.empty() && hospitalVector.size() < 10) {
-            string hospitalPK = pq.top().second;
-            hospitalVector.push_back(hospitalMap[state][hospitalPK]);
-            pq.pop();
-        }
     }
-
     return hospitalVector;
 }
-
 bool validateState(string command)
 {
     auto const validCommands = regex("\\bFL\\b|\\bGA\\b|\\bAL\\b|\\bMS\\b|\\bTN\\b|\\bSC\\b|\\bNC\\b");
@@ -133,6 +151,53 @@ int main(int argc, char* argv[])
         }
     
         return crow::response(200, response);
+    });
+    CROW_ROUTE(app, "/home")
+    ([](const crow::request& req) {
+        // Read the HTML file
+        ifstream file("visuals/home.html");
+        if (!file) {
+        return crow::response(404, "HTML file not found");
+        }
+
+        stringstream buffer;
+        buffer << file.rdbuf();
+
+        // Create response with HTML content type
+        crow::response res(buffer.str());
+        res.set_header("Content-Type", "text/html");
+        return res;
+    }); 
+
+    CROW_ROUTE(app, "/css/home.css")
+    ([](const crow::request& req) {
+      ifstream file("visuals/css/home.css");
+      if (!file) {
+        return crow::response(404, "CSS file not found");
+      }
+
+      stringstream buffer;
+      buffer << file.rdbuf();
+
+      crow::response res(buffer.str());
+      res.set_header("Content-Type", "text/css");
+      return res;
+   });
+
+
+    CROW_ROUTE(app, "/js/home.js")
+    ([](const crow::request& req) {
+      std::ifstream file("visuals/js/home.js");
+      if (!file) {
+          return crow::response(404, "JS file not found");
+      }
+
+      stringstream buffer;
+      buffer << file.rdbuf();
+
+      crow::response res(buffer.str());
+      res.set_header("Content-Type", "text/js");
+      return res;
     });
 
     // Start the server on port 8080
