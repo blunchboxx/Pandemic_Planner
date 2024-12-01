@@ -42,18 +42,17 @@ function get_data_state() {
     // display the selected state based on user's input
     img_state_display(month, year, state_name);
 
-    // create the placeholders for our file to write over
-    var first = document.getElementById("one").value;
-    var second = document.getElementById("two").value;
-    var third = document.getElementById("three").value;
-    var fourth = document.getElementById("four").value;
-    var fifth = document.getElementById("five").value;
-    var sixth = document.getElementById("six").value;
-    var seventh = document.getElementById("seven").value;
-    var eighth = document.getElementById("eight").value;
-    var ninth = document.getElementById("nine").value;
-    var tenth = document.getElementById("ten").value;
-
+    // create the default valuees for our file to write over
+    var first = " [Less than 10 Hospitals Reported] ";
+    var second = " [Less than 10 Hospitals Reported] ";
+    var third = " [Less than 10 Hospitals Reported] ";
+    var fourth = " [Less than 10 Hospitals Reported] ";
+    var fifth = " [Less than 10 Hospitals Reported] ";
+    var sixth = " [Less than 10 Hospitals Reported] ";
+    var seventh = " [Less than 10 Hospitals Reported] ";
+    var eighth = " [Less than 10 Hospitals Reported] ";
+    var ninth = " [Less than 10 Hospitals Reported] ";
+    var tenth = " [Less than 10 Hospitals Reported] ";
 
     // call whatever function we use to get the data we want
 
@@ -68,6 +67,7 @@ function get_data_state() {
 
 // show the new hotspots
 function show_hot(first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth) {
+
 
     // fill in the list with our values
     document.getElementById("one").innerText = "I am a fresh hospital name!";
