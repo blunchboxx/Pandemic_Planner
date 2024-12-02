@@ -186,6 +186,178 @@ int main(int argc, char* argv[])
       return res;
     });
 
+   // Images:
+   CROW_ROUTE(app, "/img/background.jpg")
+   ([](const crow::request& req) {
+
+   ifstream file("visuals/img/background.jpg", std::ios::binary);
+
+   if (!file) {
+       return crow::response(404, "Image not found");
+   }
+
+   std::stringstream buffer;
+   buffer << file.rdbuf();
+
+   crow::response res;
+   res.add_header("Content-Type", "image/jpeg");
+   res.write(buffer.str());
+   return res;
+       });
+
+      // Alabama:
+    CROW_ROUTE(app, "/img/Alabama.png")
+        ([](const crow::request& req) {
+
+        ifstream file("visuals/img/Alabama.png", std::ios::binary);
+
+        if (!file) {
+            return crow::response(404, "Image not found");
+        }
+
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+
+        crow::response res;
+        res.add_header("Content-Type", "image/png");
+        res.write(buffer.str());
+        return res;
+            });
+
+    // Florida:
+    CROW_ROUTE(app, "/img/Florida.png")
+        ([](const crow::request& req) {
+
+        ifstream file("visuals/img/Florida.png", std::ios::binary);
+
+        if (!file) {
+            return crow::response(404, "Image not found");
+        }
+
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+
+        crow::response res;
+        res.add_header("Content-Type", "image/png");
+        res.write(buffer.str());
+        return res;
+            });
+
+     // Fresh_States:
+    CROW_ROUTE(app, "/img/fresh_states.png")
+        ([](const crow::request& req) {
+
+        ifstream file("visuals/img/fresh_states.png", std::ios::binary);
+
+        if (!file) {
+            return crow::response(404, "Image not found");
+        }
+
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+
+        crow::response res;
+        res.add_header("Content-Type", "image/png");
+        res.write(buffer.str());
+        return res;
+            });
+
+        // Georgia:
+    CROW_ROUTE(app, "/img/Georgia.png")
+        ([](const crow::request& req) {
+
+        ifstream file("visuals/img/Georgia.png", std::ios::binary);
+
+        if (!file) {
+            return crow::response(404, "Image not found");
+        }
+
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+
+        crow::response res;
+        res.add_header("Content-Type", "image/png");
+        res.write(buffer.str());
+        return res;
+            });
+    
+      // Mississippi:
+    CROW_ROUTE(app, "/img/Mississippi.png")
+        ([](const crow::request& req) {
+
+        ifstream file("visuals/img/Mississippi.png", std::ios::binary);
+
+        if (!file) {
+            return crow::response(404, "Image not found");
+        }
+
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+
+        crow::response res;
+        res.add_header("Content-Type", "image/png");
+        res.write(buffer.str());
+        return res;
+            });
+
+
+    // North Carolina:
+    CROW_ROUTE(app, "/img/North_Carolina.png")
+        ([](const crow::request& req) {
+
+        ifstream file("visuals/img/North_Carolina.png", std::ios::binary);
+
+        if (!file) {
+            return crow::response(404, "Image not found");
+        }
+
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+
+        crow::response res;
+        res.add_header("Content-Type", "image/png");
+        res.write(buffer.str());
+        return res;
+            });
+
+    // South Carolina:
+    CROW_ROUTE(app, "/img/South_Carolina.png")
+        ([](const crow::request& req) {
+
+        ifstream file("visuals/img/South_Carolina.png", std::ios::binary);
+
+        if (!file) {
+            return crow::response(404, "Image not found");
+        }
+
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+
+        crow::response res;
+        res.add_header("Content-Type", "image/png");
+        res.write(buffer.str());
+        return res;
+            });
+
+   // Tennessee:
+    CROW_ROUTE(app, "/img/Tennessee.png")
+        ([](const crow::request& req) {
+
+        ifstream file("visuals/img/Tennessee.png", std::ios::binary);
+
+        if (!file) {
+            return crow::response(404, "Image not found");
+        }
+
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+
+        crow::response res;
+        res.add_header("Content-Type", "image/png");
+        res.write(buffer.str());
+        return res;
+            });
+  
     // Start the server on port 8080
     app.port(8080).run();
     
