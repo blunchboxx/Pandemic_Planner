@@ -32,21 +32,40 @@ vector<Hospital> retrieveData(unordered_map<string, unordered_map<string, Hospit
     {
         for (auto date : dates)
         {
+            // Skip if the state is not in the map
+            if (hospitalMap.find(state) == hospitalMap.end()) { continue; }
+
             for (auto hospital : hospitalMap[state])
             {
-                WeeklyStats newMonth = hospital.second.getOrderedMonthStatsMap()[date];
-                pair<double, string> nextHos = make_pair(hospital.second.getOrderedMonthStatsMap()[date].getPercentCapacityUsed(),
-                    hospital.first);
-                pq.push((nextHos));
+                auto statsMap = hospital.second.getUnorderedMonthStatsMap();
+
+                for (auto date : dates)
+                {
+                    if (statsMap.find(date) != statsMap.end())
+                    {
+                        auto stats = statsMap[date];
+                        double capacityUsed = stats.getPercentCapacityUsed();
+
+                        pq.emplace(capacityUsed, hospital.first);
+                    }
+                }
+                while (!pq.empty() && hospitalVector.size() < 10)
+                {
+                    string hospitalPK = pq.top().second;
+                    pq.pop();
+                    for (auto state : states)
+                    {
+                        if ((hospitalMap.find(state) != hospitalMap.end())
+                            && (hospitalMap[state].find(hospitalPK) != hospitalMap[state].end()))
+                        {
+                            hospitalVector.push_back(hospitalMap[state][hospitalPK]);
+                            break;
+                        }
+                    }
+                }
             }
         }
-        while (!pq.empty() && hospitalVector.size() < 10) {
-            string hospitalPK = pq.top().second;
-            hospitalVector.push_back(hospitalMap[state][hospitalPK]);
-            pq.pop();
-        }
     }
-
     return hospitalVector;
 }
 
