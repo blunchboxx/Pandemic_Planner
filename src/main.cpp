@@ -123,7 +123,7 @@ int main(int argc, char* argv[])
 {
     crow::SimpleApp app;
 
-    //time_t startTime = time(0);
+    // Start timer for data import
     typedef chrono::high_resolution_clock Clock;
     typedef chrono::milliseconds milliseconds;
     Clock::time_point startTime = Clock::now();
@@ -140,14 +140,45 @@ int main(int argc, char* argv[])
     // Import all data
     data.readFile(dataFile, path, stateMap);
 
-    //time_t endTime = time(0);
-    //double elapsedTime = difftime(endTime, startTime);
+    // End timer for import and display elapsed time
     Clock::time_point endTime = Clock::now();
     milliseconds elapsedTime = chrono::duration_cast<milliseconds>(endTime - startTime);
 
     cout << "Elapsed time: " << elapsedTime.count() << " milliseconds.\n";
     cout << "Number of states imported: " << stateMap.size() << "\n";
     cout << "Number of hospitals in FL: " << stateMap["FL"].size() << "\n";
+
+    //------------ TIME EXPERIMENT START ---------------
+    // Experiment with timing ordered and unordered data retrieval
+    vector<string> test_dates = {"Jul-2020", "Aug-2020", "Sep-2020", "Oct-2020", "Nov-2020", "Dec-2020"};
+    vector<string> test_states = {"FL"};
+
+    Clock::time_point unordered_t0 = Clock::now();
+
+    vector<Hospital> retrievedData = retrieveData(stateMap, test_dates, test_states);
+
+    for (int i = 1; i < 10; i++)
+    {
+        retrievedData = retrieveDataOrdered(stateMap, test_dates, test_states);
+    }
+
+    Clock::time_point unordered_t1 = Clock::now();
+    milliseconds unorderedTime = chrono::duration_cast<milliseconds>(unordered_t1 - unordered_t0);
+
+    cout << "Elapsed time for UNORDERED data retrieval: " << unorderedTime.count() << " milliseconds.\n";
+
+    Clock::time_point ordered_t0 = Clock::now();
+
+    for (int i = 0; i < 10; i++)
+    {
+        retrievedData = retrieveDataOrdered(stateMap, test_dates, test_states);
+    }
+
+    Clock::time_point ordered_t1 = Clock::now();
+    milliseconds orderedTime = chrono::duration_cast<milliseconds>(ordered_t1 - ordered_t0);
+
+    cout << "Elapsed time for ORDERED data retrieval: " << orderedTime.count() << " milliseconds.\n";
+
 
     CROW_ROUTE(app, "/api/hospitals/capacity")
     .methods("GET"_method)
