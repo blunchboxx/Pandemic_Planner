@@ -36,20 +36,22 @@ vector<Hospital> retrieveData(unordered_map<string, unordered_map<string, Hospit
         {
             for (auto hospital : hospitalMap[state])
             {
-                // TODO implement method to retrieve and store weekly stats and compare to find largest
-                WeeklyStats newMonth = hospital.second.getUnorderedMonthStatsMap()[date];
-                pair<double, string> nextHos = make_pair(hospital.second.getUnorderedMonthStatsMap()[date].getPercentCapacityUsed(),
-                    hospital.first);
-                pq.push((nextHos));
+                // Check if hospital has data in a given month
+                if (hospital.second.getUnorderedMonthStatsMap().find(date) != hospital.second.getUnorderedMonthStatsMap().end())
+                {
+                    double capacity_used = hospital.second.getUnorderedMonthStatsMap()[date].getPercentCapacityUsed();
+                    //double capacity_used_ordered = hospital.second.getOrderedMonthStatsMap()[date].getPercentCapacityUsed();
+                    pair<double, string> nextHos = make_pair(capacity_used, hospital.first);
+                    pq.push((nextHos)); // Add each capacity-hospital pair to queue
+                }
             }
         }
-        for (int i = 0; i < 10; i++)
-        {
-            while (!pq.empty() && hospitalVector.size() < 10) {
-                string hospitalPK = pq.top().second;
-                hospitalVector.push_back(hospitalMap[state][hospitalPK]);
-                pq.pop();
-            }
+        // Take top 10 hospitals only and add to return vector
+        while (!pq.empty() && hospitalVector.size() < 10) {
+            string hospitalPK = pq.top().second;
+            hospitalVector.push_back(hospitalMap[state][hospitalPK]);
+
+            pq.pop();
         }
     }
     return hospitalVector;
@@ -97,7 +99,7 @@ int main(int argc, char* argv[])
     ifstream dataFile;
     // Changed working directory to the parent of the executable
     //filesystem::current_path(filesystem::path(argv[0]).parent_path());
-    string path = "data/COVID-19_Data_scrubbed_no99999.csv";
+    string path = "../data/COVID-19_Data_scrubbed_no99999.csv";
 
     // Import all data
     data.readFile(dataFile, path, stateMap);

@@ -35,19 +35,25 @@ vector<Hospital> retrieveData(unordered_map<string, unordered_map<string, Hospit
             for (auto hospital : hospitalMap[state])
             {
                 // TODO implement method to retrieve and store weekly stats and compare to find largest
-                WeeklyStats newMonth = hospital.second.getUnorderedMonthStatsMap()[date];
-                pair<double, string> nextHos = make_pair(hospital.second.getUnorderedMonthStatsMap()[date].getPercentCapacityUsed(),
-                    hospital.first);
-                pq.push((nextHos));
+                //WeeklyStats newMonth = hospital.second.getUnorderedMonthStatsMap()[date];
+
+                if (hospital.second.getUnorderedMonthStatsMap().find(date) != hospital.second.getUnorderedMonthStatsMap().end())
+                {
+                    double capacity_used = hospital.second.getUnorderedMonthStatsMap()[date].getPercentCapacityUsed();
+                    double capacity_used_ordered = hospital.second.getOrderedMonthStatsMap()[date].getPercentCapacityUsed();
+                    pair<double, string> nextHos = make_pair(capacity_used, hospital.first);
+
+                    //cout << "Adding hospital " << hospital.first << " to queue with unordered capacity: " << capacity_used << " and ordered capacity: " << capacity_used_ordered << "\n";
+                    pq.push((nextHos));
+                }
+
             }
         }
-        for (int i = 0; i < 10; i++)
-        {
-            while (!pq.empty() && hospitalVector.size() < 10) {
-                string hospitalPK = pq.top().second;
-                hospitalVector.push_back(hospitalMap[state][hospitalPK]);
-                pq.pop();
-            }
+        while (!pq.empty() && hospitalVector.size() < 10) {
+            string hospitalPK = pq.top().second;
+            hospitalVector.push_back(hospitalMap[state][hospitalPK]);
+            //cout << "Adding hospital " << hospitalPK << " to vector. \n";
+            pq.pop();
         }
     }
     return hospitalVector;
