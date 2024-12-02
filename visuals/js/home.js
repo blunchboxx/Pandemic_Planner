@@ -61,18 +61,6 @@ function get_data_state() {
     // display the selected state based on user's input
     img_state_display(month, year, state_name);
 
-    // create the default valuees for our file to write over
-    var first = " [Less than 10 Hospitals Reported] ";
-    var second = " [Less than 10 Hospitals Reported] ";
-    var third = " [Less than 10 Hospitals Reported] ";
-    var fourth = " [Less than 10 Hospitals Reported] ";
-    var fifth = " [Less than 10 Hospitals Reported] ";
-    var sixth = " [Less than 10 Hospitals Reported] ";
-    var seventh = " [Less than 10 Hospitals Reported] ";
-    var eighth = " [Less than 10 Hospitals Reported] ";
-    var ninth = " [Less than 10 Hospitals Reported] ";
-    var tenth = " [Less than 10 Hospitals Reported] ";
-
     // Fetch data from the API
     let state_code = "";
     switch(state_name) {
@@ -80,8 +68,8 @@ function get_data_state() {
         case "Florida": state_code = "FL"; break;
         case "Georgia": state_code = "GA"; break;
         case "Mississippi": state_code = "MS"; break;
-        case "North Carolina": state_code = "NC"; break;
-        case "South Carolina": state_code = "SC"; break;
+        case "North_Carolina": state_code = "NC"; break;
+        case "South_Carolina": state_code = "SC"; break;
         case "Tennessee": state_code = "TN"; break;
     }
 
