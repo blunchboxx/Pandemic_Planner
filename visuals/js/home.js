@@ -54,14 +54,54 @@ function get_data_state() {
     var ninth = " [Less than 10 Hospitals Reported] ";
     var tenth = " [Less than 10 Hospitals Reported] ";
 
-    // call whatever function we use to get the data we want
+// call whatever function we use to get the data we want
+//*************** EXPERIMENTAL***************************//
+//
+// Fetch data from the Crow backend (unsure if directory is correct)
+fetch(`/data/${state_name}/${year}/${month}`)
+    .then(response =>
+    {
+        if (!response.ok) { throw new Error("Network error!"); }
+        return response.json();
+    })
 
+    .then(data =>
+    {
+        // Check if there's an error in the response
+        if (data.error)
+        {
+            alert(data.error);
+            return;
+        } 
 
-    // replace previous variables with new values
+        // Split the resulting string delimited by newline characters into an array
+        const hospitals = data.split("\n");
 
+        // If a hospital exists in the top 10, replace the default text with its data, OR leave it as the default text if not
+        first = hospitals[0] || first;
+        second = hospitals[1] || second;
+        third = hospitals[2] || third;
+        fourth = hospitals[3] || fourth;
+        fifth = hospitals[4] || fifth;
+        sixth = hospitals[5] || sixth;
+        seventh = hospitals[6] || seventh;
+        eighth = hospitals[7] || eighth;
+        ninth = hospitals[8] || ninth;
+        tenth = hospitals[9] || tenth;
 
-    // display the new data
-    show_hot(first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth);
+        // Display the 10 data values
+        show_hot(first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth);
+    })
+
+    .catch(error =>
+    {
+        console.error("Error fetching data:", error);
+        alert("Unable to find data for the selected state and date.");
+    });
+//
+//*************** EXPERIMENTAL***************************/
+//// display the new data
+//show_hot(first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth);
 }
 
 
