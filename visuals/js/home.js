@@ -30,7 +30,7 @@ function img_state_display(month, year, state_name) {
     }
 
     // update the heading for the user's selection 
-    document.getElementById("hot_words").innerText = "Top 10 Hotspots for " + state_name + " in " + month + " " + year;
+    document.getElementById("hot_words").innerText = "Top 10 Hospitals for " + state_name + " in " + month + " " + year;
 }
 
 // resets the state image to the default
