@@ -43,12 +43,6 @@ select {
     margin-right: auto;
 }
 
-/* default values for ordered list */
-.list_holder {
-    text-align: center;
-    list-style-position: inside;
-}
-
 /* the base details for the top two boxes */
 .top_base_box {
     width: 600px;
@@ -59,14 +53,6 @@ select {
     border-color: #06177d;
     background-color: #86c1f2;
     background-attachment: fixed;
-}
-
-
-
-/* the section that displays our data */
-.hot_holder {
-    display: none;
-    text-align: center;
 }
 
 /* description section */
@@ -93,6 +79,11 @@ select {
     background-image: url('../img/fresh_states.png');
 }
 
+/* the box that displays our data */
+.hot_holder {
+    display: none;
+}
+
 /* hot spot section details */
 .hot_spot {
     width: 600px;
@@ -106,31 +97,28 @@ select {
 }
 
 .hotspot-table {
-    width: 90%;
-    margin: 20px auto;
+    width: 550px;
+    height: 250px;
+    margin-left: auto;
+    margin-right: auto;
     border-collapse: collapse;
     font-family: sans-serif;
 }
 
 .hotspot-table th,
 .hotspot-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #06177d;
+    padding: 3px;
+    border-bottom: 1.5px solid #06177d;
 }
 
 .hotspot-table th {
     background-color: #022772;
     color: white;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .hotspot-table tr {
-    background-color: #f8f9fa;
-}
-
-.hotspot-table tr:nth-child(even) {
-    background-color: #e9ecef;
+    background-color: white;
 }
 
 .hotspot-table tr:hover {
