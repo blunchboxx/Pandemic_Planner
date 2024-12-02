@@ -24,7 +24,7 @@ using namespace std;
 // Each row could be singular object?
 // Can create a database after data is parsed to reference
 vector<Hospital> retrieveData(unordered_map<string, unordered_map<string, Hospital>>& hospitalMap, vector<string> dates,
-                              vector<string> states)
+    vector<string> states)
 {
     //vector<string> hospitals;
     vector<Hospital> hospitalVector;
@@ -34,42 +34,28 @@ vector<Hospital> retrieveData(unordered_map<string, unordered_map<string, Hospit
     {
         for (auto date : dates)
         {
-            // Skip if the state is not in the map
-            if (hospitalMap.find(state) == hospitalMap.end()) { continue; }
-
             for (auto hospital : hospitalMap[state])
             {
-                auto statsMap = hospital.second.getUnorderedMonthStatsMap();
-
-                for (auto date : dates)
-                {
-                    if (statsMap.find(date) != statsMap.end())
-                    {
-                        auto stats = statsMap[date];
-                        double capacityUsed = stats.getPercentCapacityUsed();
-
-                        pq.emplace(capacityUsed, hospital.first);
-                    }
-                }
-                while (!pq.empty() && hospitalVector.size() < 10)
-                {
-                    string hospitalPK = pq.top().second;
-                    pq.pop();
-                    for (auto state : states)
-                    {
-                        if ((hospitalMap.find(state) != hospitalMap.end())
-                            && (hospitalMap[state].find(hospitalPK) != hospitalMap[state].end()))
-                        {
-                            hospitalVector.push_back(hospitalMap[state][hospitalPK]);
-                            break;
-                        }
-                    }
-                }
+                // TODO implement method to retrieve and store weekly stats and compare to find largest
+                WeeklyStats newMonth = hospital.second.getUnorderedMonthStatsMap()[date];
+                pair<double, string> nextHos = make_pair(hospital.second.getUnorderedMonthStatsMap()[date].getPercentCapacityUsed(),
+                    hospital.first);
+                pq.push((nextHos));
             }
         }
+        for (int i = 0; i < 10; i++)
+        {
+            while (!pq.empty() && hospitalVector.size() < 10) {
+                string hospitalPK = pq.top().second;
+                hospitalVector.push_back(hospitalMap[state][hospitalPK]);
+                pq.pop();
+            }
+        }
+
+        return hospitalVector;
     }
-    return hospitalVector;
 }
+
 bool validateState(string command)
 {
     auto const validCommands = regex("\\bFL\\b|\\bGA\\b|\\bAL\\b|\\bMS\\b|\\bTN\\b|\\bSC\\b|\\bNC\\b");
@@ -111,8 +97,8 @@ int main(int argc, char* argv[])
     dataInput data;
     ifstream dataFile;
     // Changed working directory to the parent of the executable
-    filesystem::current_path(filesystem::path(argv[0]).parent_path());
-    string path = "../data/COVID-19_Data_scrubbed_no99999.csv";
+    //filesystem::current_path(filesystem::path(argv[0]).parent_path());
+    string path = "data/COVID-19_Data_scrubbed_no99999.csv";
 
     // Import all data
     data.readFile(dataFile, path, stateMap);
@@ -152,6 +138,7 @@ int main(int argc, char* argv[])
     
         return crow::response(200, response);
     });
+
     CROW_ROUTE(app, "/home")
     ([](const crow::request& req) {
         // Read the HTML file
@@ -200,177 +187,6 @@ int main(int argc, char* argv[])
       return res;
     });
 
-   // Images:
-   CROW_ROUTE(app, "/img/background.jpg")
-   ([](const crow::request& req) {
-
-   ifstream file("visuals/img/background.jpg", std::ios::binary);
-
-   if (!file) {
-       return crow::response(404, "Image not found");
-   }
-
-   std::stringstream buffer;
-   buffer << file.rdbuf();
-
-   crow::response res;
-   res.add_header("Content-Type", "image/jpeg");
-   res.write(buffer.str());
-   return res;
-       });
-
-      // Alabama:
-    CROW_ROUTE(app, "/img/Alabama.png")
-        ([](const crow::request& req) {
-
-        ifstream file("visuals/img/Alabama.png", std::ios::binary);
-
-        if (!file) {
-            return crow::response(404, "Image not found");
-        }
-
-        std::stringstream buffer;
-        buffer << file.rdbuf();
-
-        crow::response res;
-        res.add_header("Content-Type", "image/png");
-        res.write(buffer.str());
-        return res;
-            });
-
-    // Florida:
-    CROW_ROUTE(app, "/img/Florida.png")
-        ([](const crow::request& req) {
-
-        ifstream file("visuals/img/Florida.png", std::ios::binary);
-
-        if (!file) {
-            return crow::response(404, "Image not found");
-        }
-
-        std::stringstream buffer;
-        buffer << file.rdbuf();
-
-        crow::response res;
-        res.add_header("Content-Type", "image/png");
-        res.write(buffer.str());
-        return res;
-            });
-
-     // Fresh_States:
-    CROW_ROUTE(app, "/img/fresh_states.png")
-        ([](const crow::request& req) {
-
-        ifstream file("visuals/img/fresh_states.png", std::ios::binary);
-
-        if (!file) {
-            return crow::response(404, "Image not found");
-        }
-
-        std::stringstream buffer;
-        buffer << file.rdbuf();
-
-        crow::response res;
-        res.add_header("Content-Type", "image/png");
-        res.write(buffer.str());
-        return res;
-            });
-
-      // Mississippi:
-    CROW_ROUTE(app, "/img/Mississippi.png")
-        ([](const crow::request& req) {
-
-        ifstream file("visuals/img/Mississippi.png", std::ios::binary);
-
-        if (!file) {
-            return crow::response(404, "Image not found");
-        }
-
-        std::stringstream buffer;
-        buffer << file.rdbuf();
-
-        crow::response res;
-        res.add_header("Content-Type", "image/png");
-        res.write(buffer.str());
-        return res;
-            });
-
-    // Georgia:
-    CROW_ROUTE(app, "/img/Georgia.png")
-        ([](const crow::request& req) {
-
-        ifstream file("visuals/img/Georgia.png", std::ios::binary);
-
-        if (!file) {
-            return crow::response(404, "Image not found");
-        }
-
-        std::stringstream buffer;
-        buffer << file.rdbuf();
-
-        crow::response res;
-        res.add_header("Content-Type", "image/png");
-        res.write(buffer.str());
-        return res;
-            });
-
-    // North Carolina:
-    CROW_ROUTE(app, "/img/North_Carolina.png")
-        ([](const crow::request& req) {
-
-        ifstream file("visuals/img/North_Carolina.png", std::ios::binary);
-
-        if (!file) {
-            return crow::response(404, "Image not found");
-        }
-
-        std::stringstream buffer;
-        buffer << file.rdbuf();
-
-        crow::response res;
-        res.add_header("Content-Type", "image/png");
-        res.write(buffer.str());
-        return res;
-            });
-
-    // South Carolina:
-    CROW_ROUTE(app, "/img/South_Carolina.png")
-        ([](const crow::request& req) {
-
-        ifstream file("visuals/img/South_Carolina.png", std::ios::binary);
-
-        if (!file) {
-            return crow::response(404, "Image not found");
-        }
-
-        std::stringstream buffer;
-        buffer << file.rdbuf();
-
-        crow::response res;
-        res.add_header("Content-Type", "image/png");
-        res.write(buffer.str());
-        return res;
-            });
-
-   // Tennessee:
-    CROW_ROUTE(app, "/img/Tennessee.png")
-        ([](const crow::request& req) {
-
-        ifstream file("visuals/img/Tennessee.png", std::ios::binary);
-
-        if (!file) {
-            return crow::response(404, "Image not found");
-        }
-
-        std::stringstream buffer;
-        buffer << file.rdbuf();
-
-        crow::response res;
-        res.add_header("Content-Type", "image/png");
-        res.write(buffer.str());
-        return res;
-            });
-  
     // Start the server on port 8080
     app.port(8080).run();
     
