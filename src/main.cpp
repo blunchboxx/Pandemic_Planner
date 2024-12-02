@@ -85,6 +85,7 @@ string formatHospitalList(const vector<Hospital>& hospitals, const string& date)
 
 // I had to add argc and argv to main to get the current path to the data file
 int main(int argc, char* argv[])
+//int main()
 {
     crow::SimpleApp app;
 
@@ -96,11 +97,13 @@ int main(int argc, char* argv[])
     dataInput data;
     ifstream dataFile;
     // Changed working directory to the parent of the executable
-    //filesystem::current_path(filesystem::path(argv[0]).parent_path());
-    string path = "data/COVID-19_Data_scrubbed_no99999.csv";
+    filesystem::current_path(filesystem::path(argv[0]).parent_path());
+    //string path = "data/COVID-19_Data_scrubbed_no99999.csv";
+    string path = "../data/COVID-19_Data_scrubbed_no99999.csv";
 
     // Import all data
     data.readFile(dataFile, path, stateMap);
+
 
     time_t endTime = time(0);
     double elapsedTime = difftime(endTime, startTime);
@@ -141,7 +144,7 @@ int main(int argc, char* argv[])
     CROW_ROUTE(app, "/home")
     ([](const crow::request& req) {
         // Read the HTML file
-        ifstream file("visuals/home.html");
+        ifstream file("../visuals/home.html");
         if (!file) {
         return crow::response(404, "HTML file not found");
         }
@@ -157,7 +160,7 @@ int main(int argc, char* argv[])
 
     CROW_ROUTE(app, "/css/home.css")
     ([](const crow::request& req) {
-      ifstream file("visuals/css/home.css");
+      ifstream file("../visuals/css/home.css");
       if (!file) {
         return crow::response(404, "CSS file not found");
       }
@@ -173,7 +176,7 @@ int main(int argc, char* argv[])
 
     CROW_ROUTE(app, "/js/home.js")
     ([](const crow::request& req) {
-      std::ifstream file("visuals/js/home.js");
+      std::ifstream file("../visuals/js/home.js");
       if (!file) {
           return crow::response(404, "JS file not found");
       }
@@ -190,7 +193,7 @@ int main(int argc, char* argv[])
    CROW_ROUTE(app, "/img/background.jpg")
    ([](const crow::request& req) {
 
-   ifstream file("visuals/img/background.jpg", std::ios::binary);
+   ifstream file("../visuals/img/background.jpg", std::ios::binary);
 
    if (!file) {
        return crow::response(404, "Image not found");
@@ -209,7 +212,7 @@ int main(int argc, char* argv[])
     CROW_ROUTE(app, "/img/Alabama.png")
         ([](const crow::request& req) {
 
-        ifstream file("visuals/img/Alabama.png", std::ios::binary);
+        ifstream file("../visuals/img/Alabama.png", std::ios::binary);
 
         if (!file) {
             return crow::response(404, "Image not found");
@@ -228,7 +231,7 @@ int main(int argc, char* argv[])
     CROW_ROUTE(app, "/img/Florida.png")
         ([](const crow::request& req) {
 
-        ifstream file("visuals/img/Florida.png", std::ios::binary);
+        ifstream file("../visuals/img/Florida.png", std::ios::binary);
 
         if (!file) {
             return crow::response(404, "Image not found");
@@ -247,7 +250,7 @@ int main(int argc, char* argv[])
     CROW_ROUTE(app, "/img/fresh_states.png")
         ([](const crow::request& req) {
 
-        ifstream file("visuals/img/fresh_states.png", std::ios::binary);
+        ifstream file("../visuals/img/fresh_states.png", std::ios::binary);
 
         if (!file) {
             return crow::response(404, "Image not found");
@@ -266,7 +269,7 @@ int main(int argc, char* argv[])
     CROW_ROUTE(app, "/img/Georgia.png")
         ([](const crow::request& req) {
 
-        ifstream file("visuals/img/Georgia.png", std::ios::binary);
+        ifstream file("../visuals/img/Georgia.png", std::ios::binary);
 
         if (!file) {
             return crow::response(404, "Image not found");
@@ -285,7 +288,7 @@ int main(int argc, char* argv[])
     CROW_ROUTE(app, "/img/Mississippi.png")
         ([](const crow::request& req) {
 
-        ifstream file("visuals/img/Mississippi.png", std::ios::binary);
+        ifstream file("../visuals/img/Mississippi.png", std::ios::binary);
 
         if (!file) {
             return crow::response(404, "Image not found");
@@ -305,7 +308,7 @@ int main(int argc, char* argv[])
     CROW_ROUTE(app, "/img/North_Carolina.png")
         ([](const crow::request& req) {
 
-        ifstream file("visuals/img/North_Carolina.png", std::ios::binary);
+        ifstream file("../visuals/img/North_Carolina.png", std::ios::binary);
 
         if (!file) {
             return crow::response(404, "Image not found");
@@ -324,7 +327,7 @@ int main(int argc, char* argv[])
     CROW_ROUTE(app, "/img/South_Carolina.png")
         ([](const crow::request& req) {
 
-        ifstream file("visuals/img/South_Carolina.png", std::ios::binary);
+        ifstream file("../visuals/img/South_Carolina.png", std::ios::binary);
 
         if (!file) {
             return crow::response(404, "Image not found");
@@ -343,7 +346,7 @@ int main(int argc, char* argv[])
     CROW_ROUTE(app, "/img/Tennessee.png")
         ([](const crow::request& req) {
 
-        ifstream file("visuals/img/Tennessee.png", std::ios::binary);
+        ifstream file("../visuals/img/Tennessee.png", std::ios::binary);
 
         if (!file) {
             return crow::response(404, "Image not found");

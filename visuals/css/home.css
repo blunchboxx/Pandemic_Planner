@@ -105,7 +105,37 @@ select {
     background-attachment: fixed;
 }
 
+.hotspot-table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    font-family: sans-serif;
+}
 
+.hotspot-table th,
+.hotspot-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #06177d;
+}
+
+.hotspot-table th {
+    background-color: #022772;
+    color: white;
+    font-size: 16px;
+}
+
+.hotspot-table tr {
+    background-color: #f8f9fa;
+}
+
+.hotspot-table tr:nth-child(even) {
+    background-color: #e9ecef;
+}
+
+.hotspot-table tr:hover {
+    background-color: #dce3ff;
+}
 
 /* Submit and Reset button details */
 .press_me {
