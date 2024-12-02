@@ -200,6 +200,25 @@ int main(int argc, char* argv[])
       return res;
     });
 
+   // Images:
+   CROW_ROUTE(app, "/img/background.jpg")
+   ([](const crow::request& req) {
+
+   ifstream file("visuals/img/background.jpg", std::ios::binary);
+
+   if (!file) {
+       return crow::response(404, "Image not found");
+   }
+
+   std::stringstream buffer;
+   buffer << file.rdbuf();
+
+   crow::response res;
+   res.add_header("Content-Type", "image/jpeg");
+   res.write(buffer.str());
+   return res;
+       });
+ 
     // Start the server on port 8080
     app.port(8080).run();
     
