@@ -108,6 +108,10 @@ function get_data_state() {
         .catch(error => {
             console.error("Error fetching data:", error);
             alert("Unable to find data for the selected state and date.");
+
+            // hide the table when there isn't any data available 
+            document.querySelector('#hot_holder').style.display = 'none';
+
         });
 
 }
