@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <queue>
 #include <sstream>
 #include "State.h"
 #include "Hospital.h"
@@ -20,6 +21,34 @@ using namespace std;
     To check output (At the maze_escape directory):
         g++ -std=c++14 -Werror -Wuninitialized -o test test-unit/test.cpp && ./test
 */
+vector<Hospital> retrieveData(unordered_map<string, unordered_map<string, Hospital>>& hospitalMap, vector<string> dates,
+                              vector<string> states)
+{
+    //vector<string> hospitals;
+    vector<Hospital> hospitalVector;
+    priority_queue<pair<double, string>> pq;
+
+    for (auto state : states)
+    {
+        for (auto date : dates)
+        {
+            for (auto hospital : hospitalMap[state])
+            {
+                WeeklyStats newMonth = hospital.second.getOrderedMonthStatsMap()[date];
+                pair<double, string> nextHos = make_pair(hospital.second.getOrderedMonthStatsMap()[date].getPercentCapacityUsed(),
+                    hospital.first);
+                pq.push((nextHos));
+            }
+        }
+        while (!pq.empty() && hospitalVector.size() < 10) {
+            string hospitalPK = pq.top().second;
+            hospitalVector.push_back(hospitalMap[state][hospitalPK]);
+            pq.pop();
+        }
+    }
+
+    return hospitalVector;
+}
 
 TEST_CASE("Test: CATCH 2 CONFIG CHECK", "[given]")
 {
@@ -120,5 +149,65 @@ TEST_CASE("Test: Month Calculator", "[given]")
     string actualOutput = data.calculateMonth(dateInput);
     string expectedOutput = "Sep-2020";
 
+    REQUIRE(actualOutput == expectedOutput);
+}
+
+TEST_CASE("Test: retrieveData", "[given]")
+{
+    // Map of all imported data
+    unordered_map<string, unordered_map<string, Hospital>> stateMap;
+
+    dataInput data;
+    ifstream dataFile;
+    // Changed working directory to the parent of the executable
+
+    string path ="C:\\dev\\COP3530\\Projects\\Project 3\\Pandemic_Planner\\data\\COVID-19_Data_scrubbed_no99999.csv";
+
+    // Import all data
+    data.readFile(dataFile, path, stateMap);
+
+    vector<string> dates = {"Sep-2020"};
+    vector<string> states = {"AL"};
+    vector<Hospital> testOutput = retrieveData(stateMap, dates, states);
+
+    vector<string> actualOutput;
+    vector<string> expectedOutput =
+    { {"012009"},
+    {"012012"},
+    {"010087"},
+    {"012007"},
+    {"012011"},
+    {"012014"},
+    {"010078"},
+    {"010001"},
+    {"010033"},
+    {"010040"}
+    };
+    /*vector<pair<string, double>> actualOutput;
+    vector<pair<string, double>> expectedOutput =
+        { {"012009", 92.5},
+        {"012012", 89.5238},
+        {"010087", 88.4862},
+        {"012007", 87.1428},
+        {"012011", 85},
+        {"012014", 83.5},
+        {"010078", 82.3004},
+        {"010001", 81.9684},
+        {"010033", 81.10219445},
+        {"010040", 80.85728203}
+        };*/
+
+    for (auto hospital : testOutput)
+    {
+        actualOutput.push_back(hospital.getHospitalPK());
+    }
+
+    cout << "Size of hospital vector: " << testOutput.size() << endl;
+    cout << "Size of output vector: " << actualOutput.size() << endl;
+
+    /*for (auto item : actualOutput)
+    {
+        cout << item.first << " " << item.second << "%\n";
+    }*/
     REQUIRE(actualOutput == expectedOutput);
 }
