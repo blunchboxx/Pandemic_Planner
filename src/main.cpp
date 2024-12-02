@@ -8,7 +8,7 @@
 #include <map>
 #include <unordered_map>
 #include <queue>
-#include <ctime>
+#include <chrono>
 #include "Hospital.h"
 #include "dataInput.h"
 #include <filesystem>
@@ -41,6 +41,39 @@ vector<Hospital> retrieveData(unordered_map<string, unordered_map<string, Hospit
                 {
                     double capacity_used = hospital.second.getUnorderedMonthStatsMap()[date].getPercentCapacityUsed();
                     //double capacity_used_ordered = hospital.second.getOrderedMonthStatsMap()[date].getPercentCapacityUsed();
+                    pair<double, string> nextHos = make_pair(capacity_used, hospital.first);
+                    pq.push((nextHos)); // Add each capacity-hospital pair to queue
+                }
+            }
+        }
+        // Take top 10 hospitals only and add to return vector
+        while (!pq.empty() && hospitalVector.size() < 10) {
+            string hospitalPK = pq.top().second;
+            hospitalVector.push_back(hospitalMap[state][hospitalPK]);
+
+            pq.pop();
+        }
+    }
+    return hospitalVector;
+}
+vector<Hospital> retrieveDataOrdered(unordered_map<string, unordered_map<string, Hospital>>& hospitalMap, vector<string> dates,
+    vector<string> states)
+{
+    //vector<string> hospitals;
+    vector<Hospital> hospitalVector;
+    priority_queue<pair<double, string>> pq;
+
+    for (auto state : states)
+    {
+        for (auto date : dates)
+        {
+            for (auto hospital : hospitalMap[state])
+            {
+                // Check if hospital has data in a given month
+                if (hospital.second.getOrderedMonthStatsMap().find(date) != hospital.second.getOrderedMonthStatsMap().end())
+                {
+                    double capacity_used = hospital.second.getOrderedMonthStatsMap()[date].getPercentCapacityUsed();
+
                     pair<double, string> nextHos = make_pair(capacity_used, hospital.first);
                     pq.push((nextHos)); // Add each capacity-hospital pair to queue
                 }
@@ -90,7 +123,10 @@ int main(int argc, char* argv[])
 {
     crow::SimpleApp app;
 
-    time_t startTime = time(0);
+    //time_t startTime = time(0);
+    typedef chrono::high_resolution_clock Clock;
+    typedef chrono::milliseconds milliseconds;
+    Clock::time_point startTime = Clock::now();
 
     // Map of all imported data
     unordered_map<string, unordered_map<string, Hospital>> stateMap;
@@ -104,10 +140,12 @@ int main(int argc, char* argv[])
     // Import all data
     data.readFile(dataFile, path, stateMap);
 
-    time_t endTime = time(0);
-    double elapsedTime = difftime(endTime, startTime);
+    //time_t endTime = time(0);
+    //double elapsedTime = difftime(endTime, startTime);
+    Clock::time_point endTime = Clock::now();
+    milliseconds elapsedTime = chrono::duration_cast<milliseconds>(endTime - startTime);
 
-    cout << "Elapsed time: " << elapsedTime << " seconds.\n";
+    cout << "Elapsed time: " << elapsedTime.count() << " milliseconds.\n";
     cout << "Number of states imported: " << stateMap.size() << "\n";
     cout << "Number of hospitals in FL: " << stateMap["FL"].size() << "\n";
 
