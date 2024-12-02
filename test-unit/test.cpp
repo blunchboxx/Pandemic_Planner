@@ -22,7 +22,7 @@ using namespace std;
         g++ -std=c++14 -Werror -Wuninitialized -o test test-unit/test.cpp && ./test
 */
 vector<Hospital> retrieveData(unordered_map<string, unordered_map<string, Hospital>>& hospitalMap, vector<string> dates,
-                              vector<string> states)
+    vector<string> states)
 {
     //vector<string> hospitals;
     vector<Hospital> hospitalVector;
@@ -32,37 +32,21 @@ vector<Hospital> retrieveData(unordered_map<string, unordered_map<string, Hospit
     {
         for (auto date : dates)
         {
-            // Skip if the state is not in the map
-            if (hospitalMap.find(state) == hospitalMap.end()) { continue; }
-
             for (auto hospital : hospitalMap[state])
             {
-                auto statsMap = hospital.second.getUnorderedMonthStatsMap();
-
-                for (auto date : dates)
-                {
-                    if (statsMap.find(date) != statsMap.end())
-                    {
-                        auto stats = statsMap[date];
-                        double capacityUsed = stats.getPercentCapacityUsed();
-
-                        pq.emplace(capacityUsed, hospital.first);
-                    }
-                }
-                while (!pq.empty() && hospitalVector.size() < 10)
-                {
-                    string hospitalPK = pq.top().second;
-                    pq.pop();
-                    for (auto state : states)
-                    {
-                        if ((hospitalMap.find(state) != hospitalMap.end())
-                            && (hospitalMap[state].find(hospitalPK) != hospitalMap[state].end()))
-                        {
-                            hospitalVector.push_back(hospitalMap[state][hospitalPK]);
-                            break;
-                        }
-                    }
-                }
+                // TODO implement method to retrieve and store weekly stats and compare to find largest
+                WeeklyStats newMonth = hospital.second.getUnorderedMonthStatsMap()[date];
+                pair<double, string> nextHos = make_pair(hospital.second.getUnorderedMonthStatsMap()[date].getPercentCapacityUsed(),
+                    hospital.first);
+                pq.push((nextHos));
+            }
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            while (!pq.empty() && hospitalVector.size() < 10) {
+                string hospitalPK = pq.top().second;
+                hospitalVector.push_back(hospitalMap[state][hospitalPK]);
+                pq.pop();
             }
         }
     }

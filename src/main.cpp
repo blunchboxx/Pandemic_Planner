@@ -51,9 +51,8 @@ vector<Hospital> retrieveData(unordered_map<string, unordered_map<string, Hospit
                 pq.pop();
             }
         }
-
-        return hospitalVector;
     }
+    return hospitalVector;
 }
 
 bool validateState(string command)
