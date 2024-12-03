@@ -244,11 +244,15 @@ int main(int argc, char* argv[])
     CROW_ROUTE(app, "/css/home.css")
     ([](const crow::request& req) 
     {
-       ifstream file("visuals/css/home.css");
-       if (!file) { return crow::response(404, "CSS file not found"); }
-
-       stringstream buffer;
-       buffer << file.rdbuf();
+        ifstream file("visuals/css/home.css");
+        if (!file)
+        {
+            file.clear();
+            file.open("../visuals/css/home.css");
+        }
+        if (!file) { return crow::response(404, "CSS file not found"); }
+        stringstream buffer;
+        buffer << file.rdbuf();
 
        crow::response res(buffer.str());
        res.set_header("Content-Type", "text/css");
@@ -261,6 +265,12 @@ int main(int argc, char* argv[])
     ([](const crow::request& req) 
     {
        ifstream file("visuals/js/home.js");
+
+        if (!file)
+        {
+            file.clear();
+            file.open("../visuals/js/home.js");
+        }
         
        if (!file) { return crow::response(404, "JS file not found"); }
 
@@ -279,6 +289,12 @@ int main(int argc, char* argv[])
    {
       // Open the image file 
       ifstream file("visuals/img/background.jpg", ios::binary);
+
+       if (!file)
+       {
+           file.clear();
+           file.open("../visuals/img/background.jpg", ios::binary);
+       }
 
       // If file cannot be found or opened in the directory, push a 404 error
       if (!file) { return crow::response(404, "Image not found"); }
@@ -299,6 +315,12 @@ int main(int argc, char* argv[])
     {
         ifstream file("visuals/img/Alabama.png", ios::binary);
 
+        if (!file)
+        {
+            file.clear();
+            file.open("../visuals/img/Alabama.png", ios::binary);
+        }
+
         if (!file) { return crow::response(404, "Image not found"); }
 
         stringstream buffer;
@@ -316,6 +338,12 @@ int main(int argc, char* argv[])
     ([](const crow::request& req) 
     {
         ifstream file("visuals/img/Florida.png", ios::binary);
+
+        if (!file)
+        {
+            file.clear();
+            file.open("../visuals/img/Florida.png", ios::binary);
+        }
 
         if (!file) { return crow::response(404, "Florida Image not found"); }
 
@@ -335,6 +363,12 @@ int main(int argc, char* argv[])
     {
         ifstream file("visuals/img/fresh_states.png", ios::binary);
 
+        if (!file)
+        {
+            file.clear();
+            file.open("../visuals/img/fresh_states.png", ios::binary);
+        }
+
         if (!file) { return crow::response(404, "Fresh_States Image not found"); }
 
         stringstream buffer;
@@ -352,6 +386,12 @@ int main(int argc, char* argv[])
     ([](const crow::request& req) 
     {
         ifstream file("visuals/img/Georgia.png", ios::binary);
+
+        if (!file)
+        {
+            file.clear();
+            file.open("../visuals/img/Georgia.png", ios::binary);
+        }
 
         if (!file)  { return crow::response(404, "Georgia Image not found"); }
 
@@ -371,6 +411,12 @@ int main(int argc, char* argv[])
     {
         ifstream file("visuals/img/Mississippi.png", ios::binary);
 
+        if (!file)
+        {
+            file.clear();
+            file.open("../visuals/img/Mississippi.png", ios::binary);
+        }
+
         if (!file)  { return crow::response(404, "Mississippi Image not found"); }
 
         stringstream buffer;
@@ -388,6 +434,12 @@ int main(int argc, char* argv[])
     ([](const crow::request& req) 
     {
         ifstream file("visuals/img/North_Carolina.png", ios::binary);
+
+        if (!file)
+        {
+            file.clear();
+            file.open("../visuals/img/North_Carolina.png", ios::binary);
+        }
 
         if (!file)  { return crow::response(404, "North Carolina Image not found"); }
 
@@ -407,6 +459,12 @@ int main(int argc, char* argv[])
     {
         ifstream file("visuals/img/South_Carolina.png", ios::binary);
 
+        if (!file)
+        {
+            file.clear();
+            file.open("../visuals/img/South_Carolina.png", ios::binary);
+        }
+
         if (!file)  { return crow::response(404, "South Carolina Image not found"); }
 
         stringstream buffer;
@@ -424,6 +482,12 @@ int main(int argc, char* argv[])
     ([](const crow::request& req) 
     {
         ifstream file("visuals/img/Tennessee.png", ios::binary);
+
+        if (!file)
+        {
+            file.clear();
+            file.open("../visuals/img/Tennessee.png", ios::binary);
+        }
 
         if (!file)  { return crow::response(404, "Tennessee Image not found"); }
 
