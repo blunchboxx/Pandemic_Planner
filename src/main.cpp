@@ -221,6 +221,13 @@ int main(int argc, char* argv[])
     ([](const crow::request& req) {
         // Read the HTML file
         ifstream file("visuals/home.html");
+
+        if (!file)
+        {
+            file.clear();
+            file.open("../visuals/home.html");
+        }
+
         if (!file) {
         return crow::response(404, "HTML file not found");
         }
