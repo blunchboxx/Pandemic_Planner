@@ -16,7 +16,34 @@
 
 string dataInput::validateDate(string date)
 {
-    // TODO: implement function to parse data and confirm it is valid
+
+    // List all selectable months in a vector
+    vector<string> validMonths = 
+    {
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    };
+
+    // Split the string into month and year
+    istringstream iss(date);
+    string month, year;
+
+    // If string is not processed in the proper order
+    if (!(iss >> month >> year)) 
+       { return "Invalid date format or string processed incorrectly"; }
+
+    // Validate the month by checking if it exists in the validMonths list
+    if (std::find(validMonths.begin(), validMonths.end(), month) == validMonths.end()) 
+       { return "Invalid month selected."; }
+
+    // Convert year string to integer and ensure it is a date that can be reflected in the COVID data
+    try 
+    {
+        int yearInt = stoi(year);
+        if (yearInt < 2019 || yearInt > 2100) { return "Invalid year, must be after 2019"; }
+    }
+    catch (...) 
+      { return "Invalid year format."; }
 
     string monthDate = "";
     return monthDate;
@@ -99,8 +126,7 @@ void dataInput::readFile(ifstream& file, string path, unordered_map<string, unor
             string date = tempVector[1];
             string month = calculateMonth(date);
 
-            if (currTotalCovidBeds < 0)
-                currTotalCovidBeds = 0;
+            if (currTotalCovidBeds < 0) { currTotalCovidBeds = 0; }
 
             // Create new weekly stats object
             WeeklyStats newWeek(date, month, currTotalBeds, currTotalBedsUsed, currTotalCovidBeds);
@@ -133,6 +159,7 @@ void dataInput::printData(unordered_map<string, unordered_map<string, Hospital>>
                 cout << "Data for month of " << month.first << "\n";
                 cout << "Capacity used: " << month.second.getPercentCapacityUsed() << "\n";
 
+                /*- - - - REMOVING THE BELOW - - - - - */
                 /*for (auto week : month.second)
                 {
                     cout << "Total number of bed: " << week.getInpatientBeds() << "\n";
