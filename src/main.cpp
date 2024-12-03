@@ -148,7 +148,7 @@ int main(int argc, char* argv[])
     cout << "Number of states imported: " << stateMap.size() << "\n";
     cout << "Number of hospitals in FL: " << stateMap["FL"].size() << "\n";
 
-    //------------ TIME EXPERIMENT START ---------------
+    /*------------ TIME EXPERIMENT START ---------------*/
     // Experiment with timing ordered and unordered data retrieval
     vector<string> test_dates = {"Jul-2020", "Aug-2020", "Sep-2020", "Oct-2020", "Nov-2020", "Dec-2020"};
     vector<string> test_states = {"FL"};
@@ -178,7 +178,7 @@ int main(int argc, char* argv[])
     milliseconds orderedTime = chrono::duration_cast<milliseconds>(ordered_t1 - ordered_t0);
 
     cout << "Elapsed time for ORDERED data retrieval: " << orderedTime.count() << " milliseconds.\n";
-
+    /*------------ TIME EXPERIMENT END ---------------*/
 
     CROW_ROUTE(app, "/api/hospitals/capacity")
     .methods("GET"_method)

@@ -1,4 +1,4 @@
 "C:\Users\Jason\AppData\Local\JetBrains\CLion 2024.2.2\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Users/Jason/AppData/Local/JetBrains/CLion 2024.2.2/bin/ninja/win/x64/ninja.exe" -DCMAKE_TOOLCHAIN_FILE=C:\Users\Jason\.vcpkg-clion\vcpkg\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-mingw-dynamic -G Ninja -S "C:\dev\COP3530\Projects\Project 3\Pandemic_Planner" -B "C:\dev\COP3530\Projects\Project 3\Pandemic_Planner\cmake-build-debug"
--- Configuring done (8.8s)
+-- Configuring done (5.7s)
 -- Generating done (0.3s)
 -- Build files have been written to: C:/dev/COP3530/Projects/Project 3/Pandemic_Planner/cmake-build-debug

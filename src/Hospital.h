@@ -1,6 +1,5 @@
 #ifndef HOSPITAL_H
 #define HOSPITAL_H
-
 #include <map>
 #include <unordered_map>
 #include <vector>

@@ -31,8 +31,6 @@ add_executable(Main
         src/main.cpp
         src/Hospital.cpp
         src/Hospital.h
-        src/State.cpp
-        src/State.h
         src/dataInput.cpp
         src/dataInput.h
 )
@@ -50,8 +48,6 @@ add_executable(Tests
         test-unit/test.cpp
         src/Hospital.cpp
         src/Hospital.h
-        src/State.cpp
-        src/State.h
         src/dataInput.cpp
         src/dataInput.h
 )
