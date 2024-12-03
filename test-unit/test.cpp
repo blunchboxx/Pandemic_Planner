@@ -3,8 +3,6 @@
 #include <fstream>
 #include <string>
 #include <queue>
-#include <sstream>
-#include "State.h"
 #include "Hospital.h"
 #include "dataInput.h"
 #include <catch2/internal/catch_preprocessor_internal_stringify.hpp>
@@ -40,7 +38,7 @@ vector<Hospital> retrieveData(unordered_map<string, unordered_map<string, Hospit
                 if (hospital.second.getUnorderedMonthStatsMap().find(date) != hospital.second.getUnorderedMonthStatsMap().end())
                 {
                     double capacity_used = hospital.second.getUnorderedMonthStatsMap()[date].getPercentCapacityUsed();
-                    double capacity_used_ordered = hospital.second.getOrderedMonthStatsMap()[date].getPercentCapacityUsed();
+
                     pair<double, string> nextHos = make_pair(capacity_used, hospital.first);
 
                     //cout << "Adding hospital " << hospital.first << " to queue with unordered capacity: " << capacity_used << " and ordered capacity: " << capacity_used_ordered << "\n";
