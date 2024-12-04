@@ -98,6 +98,43 @@ vector<Hospital> retrieveDataOrdered(unordered_map<string, unordered_map<string,
     return hospitalVector;
 }
 
+vector<Hospital> retrieveNumWeeks(unordered_map<string, unordered_map<string, Hospital>>& hospitalMap, vector<string> dates,
+    vector<string> states)
+{
+    // Hold data for the top hospitals and use a max heap to sort
+    vector<Hospital> hospitalVector;
+    priority_queue<pair<double, string>> pq;
+
+    for (auto state : states)
+    {
+        for (auto date : dates)
+        {
+            for (auto hospital : hospitalMap[state])
+            {
+                // Check if hospital has data in a given month
+                if (hospital.second.getOrderedMonthStatsMap().find(date) != hospital.second.getOrderedMonthStatsMap().end())
+                {
+                    double capacity_used = hospital.second.getOrderedMonthStatsMap()[date].getPercentCapacityUsed();
+
+                    pair<double, string> nextHos = make_pair(capacity_used, hospital.first);
+                    pq.push((nextHos)); // Add each capacity-hospital pair to queue
+                }
+            }
+        }
+        // Take top 10 hospitals only and add to return vector
+        while (!pq.empty() && hospitalVector.size() < 10)
+        {
+            // Extract the top hospital's primary key and add it to the vector
+            string hospitalPK = pq.top().second;
+            hospitalVector.push_back(hospitalMap[state][hospitalPK]);
+            // Remove the top and continue
+            pq.pop();
+        }
+    }
+
+    return hospitalVector;
+}
+
 bool validateState(string command)
 {
     auto const validCommands = regex("\\bFL\\b|\\bGA\\b|\\bAL\\b|\\bMS\\b|\\bTN\\b|\\bSC\\b|\\bNC\\b");

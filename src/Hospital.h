@@ -45,6 +45,7 @@ private:
     string name;
     string zip;
     string subtype;
+    int numWeeksOverThreshold = 0;
     pair<double, double> geoCoords;
     map<string, WeeklyStats> ordered_weekly_data;
     unordered_map<string, WeeklyStats> unordered_weekly_data;

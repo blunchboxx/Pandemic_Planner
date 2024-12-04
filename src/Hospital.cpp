@@ -88,6 +88,7 @@ Hospital::Hospital(const string& pk, const string& hospitalName, const string& z
     name = hospitalName;
     zip = zipCode;
     subtype = hospitalSubtype;
+    numWeeksOverThreshold = 0;
     geoCoords = make_pair(x,y);
 }
 
@@ -117,6 +118,11 @@ void Hospital::addWeeklyStats(const string& date, const WeeklyStats& stats){
     // Add week to weekly maps
     ordered_weekly_data[date] = stats;
     unordered_weekly_data[date] = stats;
+
+    if (stats.getPercentCapacityUsed() > 90)
+    {
+        numWeeksOverThreshold++;
+    }
 
     // If no data for month or if new week is greater than previous greatest week in month, replace with new week
     string month = stats.getMonth();
